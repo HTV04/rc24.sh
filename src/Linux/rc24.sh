@@ -17,7 +17,9 @@ rc24patchios () {
 	./Sharpii nusd -ios ${1} -v ${2} -o Temp/Working/Wii/IOS${1}/Temp.wad -wad
 	./Sharpii wad -u Temp/Working/Wii/IOS${1}/Temp.wad Temp/Working/Wii/IOS${1}
 	
-	xdelta3 -d -f -s Temp/Working/Wii/IOS${1}/00000006.app Temp/Files/Patcher/Wii/IOS${1}/00000006.delta Temp/Working/Wii/IOS${1}/00000006.app
+	xdelta3 -d -f -s Temp/Working/Wii/IOS${1}/00000006.app Temp/Files/Patcher/Wii/IOS${1}/00000006.delta Temp/Working/Wii/IOS${1}/00000006_patched.app
+	
+	mv -f Temp/Working/Wii/IOS${1}/00000006_patched.app Temp/Working/Wii/IOS${1}/00000006.app
 	
 	./Sharpii wad -p Temp/Working/Wii/IOS${1} "Copy-to-SD/WAD/IOS${1}.wad" -f
 	
@@ -35,7 +37,9 @@ rc24patchtitle () {
 	./Sharpii nusd -id ${2}${rc24_region_hex} -v ${3} -o Temp/Working/${1} -wad
 	./Sharpii wad -u Temp/Working/${1}/${2}${rc24_region_hex}v${3}.wad Temp/Working/${1}
 	
-	xdelta3 -d -f -s Temp/Working/${1}/${4}.app Temp/Files/Patcher/${1}/${rc24_region}/${4}.delta Temp/Working/${1}/${4}.app
+	xdelta3 -d -f -s Temp/Working/${1}/${4}.app Temp/Files/Patcher/${1}/${rc24_region}/${4}.delta Temp/Working/${1}/${4}_patched.app
+	
+	mv -f Temp/Working/${1}/${4}_patched.app Temp/Working/${1}/${4}.app
 	
 	./Sharpii wad -p Temp/Working/${1} "Copy-to-SD/WAD/${5} ${rc24_region}.wad" -f
 } &>> rc24output.txt
@@ -51,8 +55,11 @@ rc24patchtitle2 () {
 	./Sharpii nusd -id ${2}${rc24_region_hex} -v ${3} -o Temp/Working/${1} -wad
 	./Sharpii wad -u Temp/Working/${1}/${2}${rc24_region_hex}v${3}.wad Temp/Working/${1}
 	
-	xdelta3 -d -f -s Temp/Working/${1}/${4}.app Temp/Files/Patcher/${1}/${rc24_region}/${4}.delta Temp/Working/${1}/${4}.app
-	xdelta3 -d -f -s Temp/Working/${1}/${5}.app Temp/Files/Patcher/${1}/${rc24_region}/${5}.delta Temp/Working/${1}/${5}.app
+	xdelta3 -d -f -s Temp/Working/${1}/${4}.app Temp/Files/Patcher/${1}/${rc24_region}/${4}.delta Temp/Working/${1}/${4}_patched.app
+	xdelta3 -d -f -s Temp/Working/${1}/${5}.app Temp/Files/Patcher/${1}/${rc24_region}/${5}.delta Temp/Working/${1}/${5}_patched.app
+	
+	mv -f Temp/Working/${1}/${4}_patched.app Temp/Working/${1}/${4}.app
+	mv -f Temp/Working/${1}/${5}_patched.app Temp/Working/${1}/${5}.app
 	
 	./Sharpii wad -p Temp/Working/${1} "Copy-to-SD/WAD/${6} ${rc24_region}.wad" -f
 } &>> rc24output.txt
@@ -64,7 +71,9 @@ rc24patchtitlevwii () {
 	./Sharpii nusd -id ${2}${rc24_region_hex} -v ${3} -o Temp/Working/${1} -wad
 	./Sharpii wad -u Temp/Working/${1}/${2}${rc24_region_hex}v${3}.wad Temp/Working/${1}
 	
-	xdelta3 -d -f -s Temp/Working/${1}/${4}.app Temp/Files/Patcher/${1}/${4}.delta Temp/Working/${1}/${4}.app
+	xdelta3 -d -f -s Temp/Working/${1}/${4}.app Temp/Files/Patcher/${1}/${4}.delta Temp/Working/${1}/${4}_patched.app
+	
+	mv -f Temp/Working/${1}/${4}_patched.app Temp/Working/${1}/${4}.app
 	
 	./Sharpii wad -p Temp/Working/${1} "Copy-to-SD/WAD/${5} vWii ${rc24_region}.wad" -f
 } &>> rc24output.txt
@@ -113,10 +122,10 @@ rc24refresh () {
 	
 	if [ ${rc24_device} = wii ]
 	then
-		printf "${rc24_str}====Installing RiiConnect24 (Wii)===============================================\n\nNow patching. This make take a few minutes, depending on your internet speed.\n\n"
+		printf "${rc24_str}====Installing RiiConnect24 (Wii)===============================================\n\nNow patching. This may take a few minutes, depending on your internet speed.\n\n"
 	elif [ ${rc24_device} = vwii ]
 	then
-		printf "${rc24_str}====Installing RiiConnect24 (vWii)==============================================\n\nNow patching. This make take a few minutes, depending on your internet speed.\n\n"
+		printf "${rc24_str}====Installing RiiConnect24 (vWii)==============================================\n\nNow patching. This may take a few minutes, depending on your internet speed.\n\n"
 	fi
 	
 	if [ ${rc24_patch[0]} = 1 ]
@@ -386,11 +395,11 @@ rc24wiipatch () {
 	if [ ${rc24_patch[0]} = 1 ]
 	then
 		rc24get IOSPatcher/00000006-31.delta Temp/Files/Patcher/Wii/IOS31/00000006.delta
-		
-		rc24patchios 31 3608
-		
 		rc24get IOSPatcher/00000006-80.delta Temp/Files/Patcher/Wii/IOS80/00000006.delta
 		
+		rc24refresh
+		
+		rc24patchios 31 3608
 		rc24patchios 80 6944
 		
 		rc24_patched[0]=1
@@ -401,13 +410,13 @@ rc24wiipatch () {
 		rc24get NewsChannelPatcher/URL_Patches/Europe/00000001_Forecast.delta Temp/Files/Patcher/Wii/FC/EUR/00000001.delta
 		rc24get NewsChannelPatcher/URL_Patches/Japan/00000001_Forecast.delta Temp/Files/Patcher/Wii/FC/JPN/00000001.delta
 		rc24get NewsChannelPatcher/URL_Patches/USA/00000001_Forecast.delta Temp/Files/Patcher/Wii/FC/USA/00000001.delta
-		
-		rc24patchtitle Wii/FC 00010002484146 7 00000001 "Forecast Channel"
-		
 		rc24get NewsChannelPatcher/URL_Patches/Europe/00000001_News.delta Temp/Files/Patcher/Wii/NC/EUR/00000001.delta
 		rc24get NewsChannelPatcher/URL_Patches/Japan/00000001_News.delta Temp/Files/Patcher/Wii/NC/JPN/00000001.delta
 		rc24get NewsChannelPatcher/URL_Patches/USA/00000001_News.delta Temp/Files/Patcher/Wii/NC/USA/00000001.delta
 		
+		rc24refresh
+		
+		rc24patchtitle Wii/FC 00010002484146 7 00000001 "Forecast Channel"
 		rc24patchtitle Wii/NC 00010002484147 7 00000001 "News Channel"
 		
 		rc24_patched[1]=1
@@ -421,6 +430,8 @@ rc24wiipatch () {
 		rc24get CMOCPatcher/patch/00000004_Japan.delta Temp/Files/Patcher/CMOC/JPN/00000004.delta
 		rc24get CMOCPatcher/patch/00000001_USA.delta Temp/Files/Patcher/CMOC/USA/00000001.delta
 		rc24get CMOCPatcher/patch/00000004_USA.delta Temp/Files/Patcher/CMOC/USA/00000004.delta
+		
+		rc24refresh
 		
 		if [ ${rc24_region} = EUR ]
 		then
@@ -438,6 +449,8 @@ rc24wiipatch () {
 		rc24get EVCPatcher/patch/USA.delta Temp/Files/Patcher/EVC/JPN/00000001.delta
 		rc24get EVCPatcher/patch/JPN.delta Temp/Files/Patcher/EVC/USA/00000001.delta
 		
+		rc24refresh
+		
 		rc24patchtitle EVC 0001000148414a 512 00000001 "Everybody Votes Channel"
 		
 		rc24_patched[3]=1
@@ -448,6 +461,8 @@ rc24wiipatch () {
 		rc24get NCPatcher/patch/Europe.delta Temp/Files/Patcher/NC/EUR/00000001.delta
 		rc24get NCPatcher/patch/USA.delta Temp/Files/Patcher/NC/JPN/00000001.delta
 		rc24get NCPatcher/patch/JPN.delta Temp/Files/Patcher/NC/USA/00000001.delta
+		
+		rc24refresh
 		
 		rc24patchtitle NC 00010001484154 1792 00000001 "Nintendo Channel"
 		
@@ -460,7 +475,6 @@ rc24wiipatch () {
 		rc24get apps/Mail-Patcher/boot.dol Copy-to-SD/apps/Mail-Patcher/boot.dol
 		rc24get apps/Mail-Patcher/icon.png Copy-to-SD/apps/Mail-Patcher/icon.png
 		rc24get apps/Mail-Patcher/meta.xml Copy-to-SD/apps/Mail-Patcher/meta.xml
-		
 		rc24get apps/WiiModLite/boot.dol Copy-to-SD/apps/WiiModLite/boot.dol
 		rc24get apps/WiiModLite/icon.png Copy-to-SD/apps/WiiModLite/icon.png
 		rc24get apps/WiiModLite/meta.xml Copy-to-SD/apps/WiiModLite/meta.xml
@@ -531,17 +545,19 @@ rc24vwiipatch () {
 	then
 		rc24get IOSPatcher/IOS31_vwii.wad Copy-to-SD/WAD/vIOS31.wad
 		
+		rc24refresh
+		
 		rc24_patched[0]=1
 		rc24refresh
 	fi
 	if [ ${rc24_patch[1]} = 1 ]
 	then
 		rc24get NewsChannelPatcher/00000001.delta Temp/Files/Patcher/vWii/FC/00000001.delta
-		
-		rc24patchtitlevwii vWii/FC 00010002484146 7 00000001 "Forecast Channel"
-		
 		rc24get URL_Patches_WiiU/00000001_Forecast_All.delta Temp/Files/Patcher/vWii/NC/00000001.delta
 		
+		rc24refresh
+		
+		rc24patchtitlevwii vWii/FC 00010002484146 7 00000001 "Forecast Channel"
 		rc24patchtitlevwii vWii/NC 00010002484147 7 00000001 "News Channel"
 		
 		rc24_patched[1]=1
@@ -555,6 +571,8 @@ rc24vwiipatch () {
 		rc24get CMOCPatcher/patch/00000004_Japan.delta Temp/Files/Patcher/CMOC/JPN/00000004.delta
 		rc24get CMOCPatcher/patch/00000001_USA.delta Temp/Files/Patcher/CMOC/USA/00000001.delta
 		rc24get CMOCPatcher/patch/00000004_USA.delta Temp/Files/Patcher/CMOC/USA/00000004.delta
+		
+		rc24refresh
 		
 		if [ ${rc24_region} = EUR ]
 		then
@@ -572,6 +590,8 @@ rc24vwiipatch () {
 		rc24get EVCPatcher/patch/USA.delta Temp/Files/Patcher/EVC/JPN/00000001.delta
 		rc24get EVCPatcher/patch/JPN.delta Temp/Files/Patcher/EVC/USA/00000001.delta
 		
+		rc24refresh
+		
 		rc24patchtitle EVC 0001000148414a 512 00000001 "Everybody Votes Channel"
 		
 		rc24_patched[3]=1
@@ -583,6 +603,8 @@ rc24vwiipatch () {
 		rc24get NCPatcher/patch/USA.delta Temp/Files/Patcher/NC/JPN/00000001.delta
 		rc24get NCPatcher/patch/JPN.delta Temp/Files/Patcher/NC/USA/00000001.delta
 		
+		rc24refresh
+		
 		rc24patchtitle NC 00010001484154 1792 00000001 "Nintendo Channel"
 		
 		rc24_patched[4]=1
@@ -592,11 +614,9 @@ rc24vwiipatch () {
 	if [ ${rc24_apps} = 1 ]
 	then
 		rc24get apps/ConnectMii_WAD/ConnectMii.wad Copy-to-SD/WAD/ConnectMii.wad
-		
 		rc24get apps/ww-43db-patcher/boot.dol Copy-to-SD/apps/ww-43db-patcher/boot.dol
 		rc24get apps/ww-43db-patcher/icon.png Copy-to-SD/apps/ww-43db-patcher/icon.png
 		rc24get apps/ww-43db-patcher/meta.xml Copy-to-SD/apps/ww-43db-patcher/meta.xml
-		
 		rc24get apps/WiiModLite/boot.dol Copy-to-SD/apps/WiiModLite/boot.dol
 		rc24get apps/WiiModLite/icon.png Copy-to-SD/apps/WiiModLite/icon.png
 		rc24get apps/WiiModLite/meta.xml Copy-to-SD/apps/WiiModLite/meta.xml
