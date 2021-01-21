@@ -5,7 +5,7 @@
 
 
 
-# Get file from RiiConnect24 website and save it to set output
+# Get file from RiiConnect24 website and save it to output
 rc24get () {
 	curl --create-dirs -f -k -L -o ${2} -S -s https://patcher.rc24.xyz/update/RiiConnect24-Patcher/v1/${1}
 } &>> rc24output.txt
@@ -80,26 +80,26 @@ rc24patchtitlevwii () {
 
 
 
-# Choose device to patch
+# Choose device to patch (to do: remove "prepare" from Wii and vWii options after uninstall mode added)
 rc24device () {
 	while true
 	do
 		clear
 		printf "${rc24_str}====Choose Device===============================================================\n\nWelcome to rc24.sh!\nWith this program, you can patch your Wii or Wii U for use with RiiConnect24.\n\nSo, what device are we patching today?\n\n1. Wii\n2. vWii (Wii U)\n\n"
 		
-		read -n 1 -p "Choose an option: " rc24_choice
+		read -p "Choose an option: " rc24_choice
 		case ${rc24_choice} in
 			1)
 				rc24_device=wii
 				
-				rc24wii
+				rc24wiiprepare
 				
 				break
 				;;
 			2)
 				rc24_device=vwii
 				
-				rc24vwii
+				rc24vwiiprepare
 				
 				break
 				;;
@@ -111,7 +111,7 @@ rc24device () {
 rc24credits () {
 	clear
 	
-	printf "${rc24_str}====rc24.sh Credits=============================================================\n\nCredits:\n    - HTV04: rc24.sh developer\n    - TheShadowEevee, person66, and leathl: Sharpii-NetCore, Sharpii, and\n      libWiiSharp developers\n    - Larsenv and KcrPL: RiiConnect24 founders, original RiiConnect24 Patcher\n      developers\n    - And you!\n\nSource code: https://github.com/HTV04/rc24.sh\nRiiConnect24 website: https://rc24.xyz/\n\nrc24.sh and RiiConnect24 were made by Wii fans, for Wii fans!\n\n"
+	printf "${rc24_str}====rc24.sh Credits=============================================================\n\nCredits:\n    - HTV04: rc24.sh developer\n    - TheShadowEevee, person66, and leathl: Sharpii-NetCore, Sharpii, and\n      libWiiSharp developers\n    - Larsenv and KcrPL: RiiConnect24 founders, original RiiConnect24 Patcher\n      developers\n    - And you!\n\nSource code: https://github.com/HTV04/rc24.sh\nRiiConnect24 website: https://rc24.xyz/\n\nrc24.sh and RiiConnect24 are made by Wii fans, for Wii fans!\n\n"
 	
 	read -n 1 -p "Press any key to return to the main menu."
 }
@@ -195,7 +195,7 @@ rc24region () {
 		clear
 		printf "${rc24_str}====Choose Region===============================================================\n\nWhat region is your device from?\n1. Europe (PAL)\n2. Japan (NTSC-J)\n3. USA (NTSC-U)\n\n"
 		
-		read -n 1 -p "Choose an option: " rc24_choice
+		read -p "Choose an option: " rc24_choice
 		case ${rc24_choice} in
 			1)
 				rc24_region=EUR
@@ -275,7 +275,7 @@ rc24custom () {
 		
 		printf "7. Continue\n\n"
 		
-		read -n 1 -p "Choose an option to toggle it: " rc24_choice
+		read -n 1 -p "Type the number of an option to toggle it: " rc24_choice
 		case ${rc24_choice} in
 			1)
 				if [ ${rc24_patch[0]} = 1 ]
@@ -317,6 +317,7 @@ rc24custom () {
 					rc24_patch[4]=1
 				fi
 				;;
+			
 			6)
 				if [ ${rc24_apps} = 1 ]
 				then
@@ -325,6 +326,7 @@ rc24custom () {
 					rc24_apps=1
 				fi
 				;;
+			
 			7)
 				break
 				;;
@@ -334,15 +336,15 @@ rc24custom () {
 
 
 
-# Choose Wii patcher mode
+# Choose Wii patcher mode (currently unused)
 rc24wii () {
 	while true
 	do
 		clear
 		
-		printf "${rc24_str}====Patcher Mode (Wii)==========================================================\n\nWhich mode should I run?\n\n1. Install RiiConnect24 on your Wii\n   - The patcher will guide you through process of installing RiiConnect24.\n\n2. Uninstall RiiConnect24 from your Wii\n   - This will help you uninstall RiiConnect24 from your Wii.\n\n"
+		printf "${rc24_str}====Patcher Mode (Wii)==========================================================\n\n1. Install RiiConnect24 on your Wii\n   - The patcher will guide you through process of installing RiiConnect24.\n\n2. Uninstall RiiConnect24 from your Wii\n   - This will help you uninstall RiiConnect24 from your Wii.\n\n"
 		
-		read -n 1 -p "Choose an option: " rc24_choice
+		read -p "Choose an option: " rc24_choice
 		case ${rc24_choice} in
 			1)
 				rc24wiiprepare
@@ -360,7 +362,7 @@ rc24wiiprepare () {
 		
 		printf "${rc24_str}====Preparing to Install RiiConnect24 (Wii)=====================================\n\nChoose instalation type:\n1. Express (Recommended)\n  - This will patch every channel for later use on your Wii. This includes:\n    - Check Mii Out Channel/Mii Contest Channel\n    - Everybody Votes Channel\n    - Forecast Channel\n    - News Channel\n    - Nintendo Channel\n    - Wii Mail\n\n2. Custom\n   - You will be asked what you want to patch.\n\n3. Back\n\n"
 		
-		read -n 1 -p "Choose an option: " rc24_choice
+		read -p "Choose an option: " rc24_choice
 		case ${rc24_choice} in
 			1)
 				rc24region
@@ -397,8 +399,6 @@ rc24wiipatch () {
 		rc24get IOSPatcher/00000006-31.delta Temp/Files/Patcher/Wii/IOS31/00000006.delta
 		rc24get IOSPatcher/00000006-80.delta Temp/Files/Patcher/Wii/IOS80/00000006.delta
 		
-		rc24refresh
-		
 		rc24patchios 31 3608
 		rc24patchios 80 6944
 		
@@ -413,8 +413,6 @@ rc24wiipatch () {
 		rc24get NewsChannelPatcher/URL_Patches/Europe/00000001_News.delta Temp/Files/Patcher/Wii/NC/EUR/00000001.delta
 		rc24get NewsChannelPatcher/URL_Patches/Japan/00000001_News.delta Temp/Files/Patcher/Wii/NC/JPN/00000001.delta
 		rc24get NewsChannelPatcher/URL_Patches/USA/00000001_News.delta Temp/Files/Patcher/Wii/NC/USA/00000001.delta
-		
-		rc24refresh
 		
 		rc24patchtitle Wii/FC 00010002484146 7 00000001 "Forecast Channel"
 		rc24patchtitle Wii/NC 00010002484147 7 00000001 "News Channel"
@@ -431,8 +429,6 @@ rc24wiipatch () {
 		rc24get CMOCPatcher/patch/00000001_USA.delta Temp/Files/Patcher/CMOC/USA/00000001.delta
 		rc24get CMOCPatcher/patch/00000004_USA.delta Temp/Files/Patcher/CMOC/USA/00000004.delta
 		
-		rc24refresh
-		
 		if [ ${rc24_region} = EUR ]
 		then
 			rc24patchtitle2 CMOC 00010001484150 512 00000001 00000004 "Mii Contest Channel"
@@ -446,10 +442,8 @@ rc24wiipatch () {
 	if [ ${rc24_patch[3]} = 1 ]
 	then
 		rc24get EVCPatcher/patch/Europe.delta Temp/Files/Patcher/EVC/EUR/00000001.delta
-		rc24get EVCPatcher/patch/USA.delta Temp/Files/Patcher/EVC/JPN/00000001.delta
-		rc24get EVCPatcher/patch/JPN.delta Temp/Files/Patcher/EVC/USA/00000001.delta
-		
-		rc24refresh
+		rc24get EVCPatcher/patch/JPN.delta Temp/Files/Patcher/EVC/JPN/00000001.delta
+		rc24get EVCPatcher/patch/USA.delta Temp/Files/Patcher/EVC/USA/00000001.delta
 		
 		rc24patchtitle EVC 0001000148414a 512 00000001 "Everybody Votes Channel"
 		
@@ -459,10 +453,8 @@ rc24wiipatch () {
 	if [ ${rc24_patch[4]} = 1 ]
 	then
 		rc24get NCPatcher/patch/Europe.delta Temp/Files/Patcher/NC/EUR/00000001.delta
-		rc24get NCPatcher/patch/USA.delta Temp/Files/Patcher/NC/JPN/00000001.delta
-		rc24get NCPatcher/patch/JPN.delta Temp/Files/Patcher/NC/USA/00000001.delta
-		
-		rc24refresh
+		rc24get NCPatcher/patch/JPN.delta Temp/Files/Patcher/NC/JPN/00000001.delta
+		rc24get NCPatcher/patch/USA.delta Temp/Files/Patcher/NC/USA/00000001.delta
 		
 		rc24patchtitle NC 00010001484154 1792 00000001 "Nintendo Channel"
 		
@@ -483,15 +475,15 @@ rc24wiipatch () {
 
 
 
-# Choose vWii patcher mode
+# Choose vWii patcher mode (currently unused)
 rc24vwii () {
 	while true
 	do
 		clear
 		
-		printf "${rc24_str}====Patcher Mode (vWii)=========================================================\n\nWhich mode should I run?\n\n1. Install RiiConnect24 on your vWii\n   - The patcher will guide you through process of installing RiiConnect24.\n\n2. Uninstall RiiConnect24 from your vWii\n   - This will help you uninstall RiiConnect24 from your vWii.\n\n"
+		printf "${rc24_str}====Patcher Mode (vWii)=========================================================\n\n1. Install RiiConnect24 on your vWii\n   - The patcher will guide you through process of installing RiiConnect24.\n\n2. Uninstall RiiConnect24 from your vWii\n   - This will help you uninstall RiiConnect24 from your vWii.\n\n"
 		
-		read -n 1 -p "Choose an option: " rc24_choice
+		read -p "Choose an option: " rc24_choice
 		case ${rc24_choice} in
 			1)
 				rc24vwiiprepare
@@ -509,7 +501,7 @@ rc24vwiiprepare () {
 		
 		printf "${rc24_str}====Preparing to Install RiiConnect24 (vWii)====================================\n\nChoose instalation type:\n1. Express (Recommended)\n  - This will patch every channel for later use on your vWii. This includes:\n    - Check Mii Out Channel/Mii Contest Channel\n    - Everybody Votes Channel\n    - Forecast Channel\n    - News Channel\n    - Nintendo Channel\n\n2. Custom\n   - You will be asked what you want to patch.\n\n3. Back\n\n"
 		
-		read -n 1 -p "Choose an option: " rc24_choice
+		read -p "Choose an option: " rc24_choice
 		case ${rc24_choice} in
 			1)
 				rc24region
@@ -533,7 +525,7 @@ rc24vwiiprepare () {
 	done
 }
 
-# Wii patching process
+# vWii patching process
 rc24vwiipatch () {
 	rc24_patched=(0 0 0 0 0 0)
 	rc24refresh
@@ -545,8 +537,6 @@ rc24vwiipatch () {
 	then
 		rc24get IOSPatcher/IOS31_vwii.wad Copy-to-SD/WAD/vIOS31.wad
 		
-		rc24refresh
-		
 		rc24_patched[0]=1
 		rc24refresh
 	fi
@@ -554,8 +544,6 @@ rc24vwiipatch () {
 	then
 		rc24get NewsChannelPatcher/00000001.delta Temp/Files/Patcher/vWii/FC/00000001.delta
 		rc24get URL_Patches_WiiU/00000001_Forecast_All.delta Temp/Files/Patcher/vWii/NC/00000001.delta
-		
-		rc24refresh
 		
 		rc24patchtitlevwii vWii/FC 00010002484146 7 00000001 "Forecast Channel"
 		rc24patchtitlevwii vWii/NC 00010002484147 7 00000001 "News Channel"
@@ -572,8 +560,6 @@ rc24vwiipatch () {
 		rc24get CMOCPatcher/patch/00000001_USA.delta Temp/Files/Patcher/CMOC/USA/00000001.delta
 		rc24get CMOCPatcher/patch/00000004_USA.delta Temp/Files/Patcher/CMOC/USA/00000004.delta
 		
-		rc24refresh
-		
 		if [ ${rc24_region} = EUR ]
 		then
 			rc24patchtitle2 CMOC 00010001484150 512 00000001 00000004 "Mii Contest Channel"
@@ -587,10 +573,8 @@ rc24vwiipatch () {
 	if [ ${rc24_patch[3]} = 1 ]
 	then
 		rc24get EVCPatcher/patch/Europe.delta Temp/Files/Patcher/EVC/EUR/00000001.delta
-		rc24get EVCPatcher/patch/USA.delta Temp/Files/Patcher/EVC/JPN/00000001.delta
-		rc24get EVCPatcher/patch/JPN.delta Temp/Files/Patcher/EVC/USA/00000001.delta
-		
-		rc24refresh
+		rc24get EVCPatcher/patch/JPN.delta Temp/Files/Patcher/EVC/JPN/00000001.delta
+		rc24get EVCPatcher/patch/USA.delta Temp/Files/Patcher/EVC/USA/00000001.delta
 		
 		rc24patchtitle EVC 0001000148414a 512 00000001 "Everybody Votes Channel"
 		
@@ -600,10 +584,8 @@ rc24vwiipatch () {
 	if [ ${rc24_patch[4]} = 1 ]
 	then
 		rc24get NCPatcher/patch/Europe.delta Temp/Files/Patcher/NC/EUR/00000001.delta
-		rc24get NCPatcher/patch/USA.delta Temp/Files/Patcher/NC/JPN/00000001.delta
-		rc24get NCPatcher/patch/JPN.delta Temp/Files/Patcher/NC/USA/00000001.delta
-		
-		rc24refresh
+		rc24get NCPatcher/patch/JPN.delta Temp/Files/Patcher/NC/JPN/00000001.delta
+		rc24get NCPatcher/patch/USA.delta Temp/Files/Patcher/NC/USA/00000001.delta
 		
 		rc24patchtitle NC 00010001484154 1792 00000001 "Nintendo Channel"
 		
@@ -625,23 +607,67 @@ rc24vwiipatch () {
 
 
 
-# Main script
+# Main scripts
 clear
 
-rc24_str="rc24.sh for Linux BETA v0.5\nBy HTV04\n\n"
-rc24_url=https://patcher.rc24.xyz/update/RiiConnect24-Patcher/v1
 
-rc24_facts=("Did you know the wii was the best selling game-console of 2006?" "RiiConnect24 originally started out as \"CustomConnect24\"!" "Did you the RiiConnect24 logo was made by NeoRame, the same person who made the Wiimmfi logo?" "The Wii was nicknamed \"Revolution\" during its development stage." "Did you know the letters in the Wii model number RVL stand for the Wii's codename, Revolution?" "The music used in many of the Wii's channels (including the Wii Shop, Mii, Check Mii Out, and Forecast Channel) was composed by Kazumi Totaka." "The Internet Channel once costed 500 Wii Points." "It's possible to use candles as a Wii Sensor Bar." "The blinking blue light that indicates a system message has been received is actually synced to the bird call of the Japanese bush warbler." "Wii Sports is the most sold game on the Wii. It sold 82.85 million." "Did you know that most of the scripts used to make RiiConnect24 work are written in Python?" "Thanks to Spotlight for making RiiConnect24's mail system secure!" "Did you know that RiiConnect24 has a Discord server where you can stay updated about the project status?" "The Everybody Votes Channel was originally an idea about sending quizzes and questions daily to Wiis." "The News Channel developers had an idea at some point about making a dad's Mii being the news caster in the Channel, but it probably didn't make it because some stories on there probably aren't appropriate for kids." "The Everybody Votes Channel was originally called the Questionnaire Channel, then Citizens Vote Channel." "The Forecast Channel has a \"laundry index\" (to show how appropriate it is to dry your clothes outside) and a \"pollen count\" in the Japanese version." "During the Forecast Channel development, Nintendo's America department got hit by a thunderstorm, and the developers of the Channel in Japan lost contact with them." "The News Channel has an alternate slide show song that plays at night." "During E3 2006, Satoru Iwata said WiiConnect24 uses as much power as a miniature lightbulb while the console is in standby." "The effect used when rapidly zooming in and out of photos on the Photo Channel was implemented into the News Channel to zoom in and out of text." "The help cats in the News Channel and the Photo Channel are brother and sister (the one in the News Channel being male, and the Photo Channel being a younger female)." "The Japanese version of the Forecast Channel does not show the current forecast." "The Forecast Channel, News Channel and the Photo Channel were made by nearly the same team." "The first worldwide Everybody Votes Channel question about if you like dogs or cats more got more than 500,000 votes." "The night song that plays when viewing the local forecast in the Forecast Channel was made before the day song, that was requested to make people not feel sleepy when it was played during the day." "The globe in the Forecast and News Channel is based on imagery from NASA, and the same globe was used in Mario Kart Wii." "You can press the Reset button while the Wii is in standby mode to turn off the blue light that glows when you receive a message.")
+
+rc24_str="rc24.sh for Linux BETA v0.5\nBy HTV04\n\n"
+
+rc24_facts=("Did you know that the Wii was the best selling game-console of 2006?" "RiiConnect24 originally started out as \"CustomConnect24!\"" "Did you the RiiConnect24 logo was made by NeoRame, the same person who made the Wiimmfi logo?" "The Wii was codenamed \"Revolution\" during its development stage." "Did you know the letters in the Wii model number \"RVL\" stands for the Wii's codename, \"Revolution\"?" "The music used in many of the Wii's channels (including the Wii Shop, Mii, Check Mii Out, and Forecast Channels) was composed by Kazumi Totaka." "The Internet Channel once costed 500 Wii Points, but was later made freeware." "It's possible to use candles as a Wii Sensor Bar." "The blinking blue light that indicates a system message has been received is actually synced to the bird call of the Japanese bush warbler." "Wii Sports is the most sold game on the Wii. It sold 82.85 million copies." "Did you know that most of the scripts used to make RiiConnect24 work are written in Python?" "Thanks to Spotlight for making RiiConnect24's mail system secure!" "Did you know that RiiConnect24 has a Discord server where you can stay updated about the project status?" "The Everybody Votes Channel was originally an idea about sending quizzes and questions daily to Wii consoles." "The News Channel developers had an idea at some point about making a dad's Mii the news caster in the channel, but it probably didn't make the cut because some articles aren't appropriate for kids." "The Everybody Votes Channel was originally called the \"Questionnaire Channel\", then \"Citizens Vote Channel.\"" "The Forecast Channel has a \"laundry index\" to show how appropriate it is to dry your clothes outside, and a \"pollen count\" in the Japanese version." "During the development of the Forecast Channel, Nintendo of America's department got hit by a thunderstorm, and the developers of the channel in Japan lost contact with them." "The News Channel has an alternate slide show song that plays at night." "During E3 2006, Satoru Iwata said WiiConnect24 uses as much power as a miniature lightbulb while the console is in Standby mode." "The effect used when rapidly zooming in and out of photos on the Photo Channel was implemented into the News Channel to zoom in and out of text." "The help cats in the News Channel and the Photo Channel are brother and sister (the one in the News Channel being male, and the Photo Channel being a younger female)." "The Japanese version of the Forecast Channel does not show the current forecast." "The Forecast Channel, News Channel and the Photo Channel were made by nearly the same team." "The first worldwide Everybody Votes Channel question about if you like dogs or cats more got more than 500,000 votes." "The night song that plays when viewing the local forecast in the Forecast Channel was made before the day song, that was requested to make people not feel sleepy when it was played during the day." "The globe used in the Forecast and News Channels is based on imagery from NASA, and the same globe was used in Mario Kart Wii." "You can press the RESET button while the Wii is in Standby mode to turn off the blue light that glows when you receive a message.")
+
+
+
+printf "${rc24_str}Now loading...\n\n"
+
+if ! command -v curl &> /dev/null
+then
+	printf "\"curl\" command not found! Please install the \"curl\" package using your package manager.\n\n" | fold -s -w 80
+	exit
+fi
+if ! command -v xdelta3 &> /dev/null
+then
+	printf "\"xdelta3\" command not found! Please install the \"xdelta3\" package using your package manager.\n\n" | fold -s -w 80
+	exit
+fi
+
+if [ ! -d Files ]
+then
+	printf "\"Files\" directory missing! Please ensure that the release ZIP has been extracted correctly.\n\n" | fold -s -w 80
+	exit
+fi
+if [ ! -f Sharpii ]
+then
+	printf "Sharpii binary missing! Please ensure that that the release ZIP has been extracted correctly.\n\n" | fold -s -w 80
+	exit
+fi
+
+if ! ping -c 1 -q -W 1 google.com &>/dev/null
+then
+	printf "Unable to connect to internet! Please check your internet connection.\n\n"
+	exit
+fi
+
+if ! ping -c 1 -q -W 1 nus.cdn.shop.wii.com &>/dev/null
+then
+	printf "Warning: The NUS is either offline, or your device is unable to connect to it. The patcher will continue, but it may not function properly.\n\n" | fold -s -w 80
+fi
+
+
+
+chmod +x Sharpii
 
 rm -rf Temp
 
 printf "${rc24_str}==rc24.sh Patcher Output==\n\n" > rc24output.txt
 
+
+
 while true
 do
 	clear
 	printf "${rc24_str}====Main Menu===================================================================\n\nRiiConnect your Wii!\n\n1. Start\n   - Start patching.\n2. Credits\n   - See who made this possible!\n\n3. Exit\n\n"
-	read -n 1 -p "Choose an option (by typing its number): " rc24_choice
+	read -p "Choose an option (by typing its number and pressing return): " rc24_choice
 	case ${rc24_choice} in
 		1)
 			rc24device
@@ -651,7 +677,9 @@ do
 			;;
 		3)
 			clear
+			
 			printf "Thank you for using this patcher! If you encountered any issues, please let me know here:\n\nhttps://github.com/HTV04/rc24.sh/issues\n\n" | fold -s -w 80
+			
 			exit
 			;;
 	esac
