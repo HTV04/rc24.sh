@@ -21,7 +21,7 @@ Finally, please check out the [RiiConnect24 website](https://rc24.xyz/) if you h
 ### Linux
 * Ensure your device is connected to the internet, as it is needed for rc24.sh to download files.
 * If rc24.sh has been downloaded and extracted before, please delete the files of the old version before extracting a new version.
-* Extract the release zip for your device (usually amd64) found [here](https://github.com/HTV04/rc24.sh/releases/latest).
+* Extract the release ZIP for your device (usually amd64) found [here](https://github.com/HTV04/rc24.sh/releases/latest).
 * Open a terminal.
   * Install the `curl` and `xdelta3` packages using your default package manager. Please consult your distro's information on installing packages if you are having trouble doing this.
   * Navigate to the folder the files have been extracted to (using `ls` to show the files in the current folder and `cd [folder name here]` to enter a folder).
