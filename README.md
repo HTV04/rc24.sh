@@ -5,13 +5,15 @@
 
 rc24.sh is a patcher for RiiConnect24 services, written in Bash. Currently, it is supported on Linux, and will soon support macOS.
 
+*rc24.sh is not developed by the RiiConnect24 team, and thus they are not responsible for any issues that may occur while using this tool.*
+
+Please check out the [RiiConnect24 website](https://rc24.xyz/) if you want to learn more about RiiConnect24.
+
 rc24.sh is heavily inspired by the [original RiiConnect24 Patcher](https://github.com/RiiConnect24/RiiConnect24-Patcher) for Windows by [KcrPL](https://github.com/KcrPL), so please check that out!
 
 [TheShadowEevee](https://github.com/TheShadowEevee) ported person66's Sharpii to .NET Core, allowing Sharpii to work flawlessly on Unix-like operating systems. Check it out [here](https://github.com/TheShadowEevee/Sharpii-NetCore)!
 
-[KuraiKokoro](https://github.com/KuraiKokoro) is working on a [Python-based RiiConnect24 patcher](https://github.com/KuraiKokoro/RiiConnect24-PyPatcher) with the goal of working on several operating systems, including Windows, macOS, Linux, and even Android!
-
-Finally, please check out the [RiiConnect24 website](https://rc24.xyz/) if you haven't already.
+Finally, [KuraiKokoro](https://github.com/KuraiKokoro) is working on a [Python-based RiiConnect24 patcher](https://github.com/KuraiKokoro/RiiConnect24-PyPatcher) with the goal of working on several operating systems, including Windows, macOS, Linux, and even Android!
 
 ## Credits
 * HTV04: rc24.sh developer
