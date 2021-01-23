@@ -27,6 +27,7 @@ Finally, please check out the [RiiConnect24 website](https://rc24.xyz/) if you h
   * Navigate to the folder the files have been extracted to (using `ls` to show the files in the current folder and `cd [folder name here]` to enter a folder).
 * Type `chmod +x Sharpii rc24.sh` into the terminal and press return.
 * Type `./rc24.sh` into the terminal and press return. rc24.sh will now start.
+* After running rc24.sh, insert the SD card you use for your Wii or Wii U and copy all of the files *in* the `Copy-to-SD` folder (located in the same folder as the rc24.sh files you extracted) to it.
 
 ## Roadmap
 * Uninstallation script (and restore unused menus).
