@@ -2,6 +2,7 @@
 
 # rc24.sh for Linux BETA v0.5
 # By HTV04
+clear
 
 
 
@@ -608,24 +609,31 @@ rc24vwiipatch () {
 
 
 # Main scripts
-clear
-
-
-
-rc24_str="rc24.sh for Linux BETA v0.5\nBy HTV04\n\n"
+rc24_beta=1
+rc24_ver=v0.5
 
 rc24_facts=("Did you know that the Wii was the best selling game-console of 2006?" "RiiConnect24 originally started out as \"CustomConnect24!\"" "Did you the RiiConnect24 logo was made by NeoRame, the same person who made the Wiimmfi logo?" "The Wii was codenamed \"Revolution\" during its development stage." "Did you know the letters in the Wii model number \"RVL\" stands for the Wii's codename, \"Revolution\"?" "The music used in many of the Wii's channels (including the Wii Shop, Mii, Check Mii Out, and Forecast Channels) was composed by Kazumi Totaka." "The Internet Channel once costed 500 Wii Points, but was later made freeware." "It's possible to use candles as a Wii Sensor Bar." "The blinking blue light that indicates a system message has been received is actually synced to the bird call of the Japanese bush warbler." "Wii Sports is the most sold game on the Wii. It sold 82.85 million copies." "Did you know that most of the scripts used to make RiiConnect24 work are written in Python?" "Thanks to Spotlight for making RiiConnect24's mail system secure!" "Did you know that RiiConnect24 has a Discord server where you can stay updated about the project status?" "The Everybody Votes Channel was originally an idea about sending quizzes and questions daily to Wii consoles." "The News Channel developers had an idea at some point about making a dad's Mii the news caster in the channel, but it probably didn't make the cut because some articles aren't appropriate for kids." "The Everybody Votes Channel was originally called the \"Questionnaire Channel\", then \"Citizens Vote Channel.\"" "The Forecast Channel has a \"laundry index\" to show how appropriate it is to dry your clothes outside, and a \"pollen count\" in the Japanese version." "During the development of the Forecast Channel, Nintendo of America's department got hit by a thunderstorm, and the developers of the channel in Japan lost contact with them." "The News Channel has an alternate slide show song that plays at night." "During E3 2006, Satoru Iwata said WiiConnect24 uses as much power as a miniature lightbulb while the console is in Standby mode." "The effect used when rapidly zooming in and out of photos on the Photo Channel was implemented into the News Channel to zoom in and out of text." "The help cats in the News Channel and the Photo Channel are brother and sister (the one in the News Channel being male, and the Photo Channel being a younger female)." "The Japanese version of the Forecast Channel does not show the current forecast." "The Forecast Channel, News Channel and the Photo Channel were made by nearly the same team." "The first worldwide Everybody Votes Channel question about if you like dogs or cats more got more than 500,000 votes." "The night song that plays when viewing the local forecast in the Forecast Channel was made before the day song, that was requested to make people not feel sleepy when it was played during the day." "The globe used in the Forecast and News Channels is based on imagery from NASA, and the same globe was used in Mario Kart Wii." "You can press the RESET button while the Wii is in Standby mode to turn off the blue light that glows when you receive a message.")
 
 
+if [ ${rc24_beta} != 1 ]
+then
+	rc24_str="rc24.sh ${rc24_ver}\nBy HTV04\n\n"
+else
+	rc24_str="rc24.sh BETA ${rc24_ver}\nBy HTV04\n\n"
+fi
 
 printf "${rc24_str}Now loading...\n\n"
 
-if ! command -v curl &> /dev/null
+printf "${rc24_str}==rc24.sh Patcher Output==\n\n" > rc24output.txt
+
+rm -rf Temp
+
+if ! command -v curl &>> rc24output.txt
 then
 	printf "\"curl\" command not found! Please install the \"curl\" package using your package manager.\n\n" | fold -s -w 80
 	exit
 fi
-if ! command -v xdelta3 &> /dev/null
+if ! command -v xdelta3 &>> rc24output.txt
 then
 	printf "\"xdelta3\" command not found! Please install the \"xdelta3\" package using your package manager.\n\n" | fold -s -w 80
 	exit
@@ -642,32 +650,34 @@ then
 	exit
 fi
 
-if ! ping -c 1 -q -W 1 google.com &>/dev/null
+if ! ping -c 1 -q -W 1 google.com &>> rc24output.txt
 then
 	printf "Unable to connect to internet! Please check your internet connection.\n\n"
 	exit
 fi
 
-if ! ping -c 1 -q -W 1 nus.cdn.shop.wii.com &>/dev/null
+if ! ping -c 1 -q -W 1 nus.cdn.shop.wii.com &>> rc24output.txt
 then
 	printf "Warning: The NUS is either offline, or your device is unable to connect to it. The patcher will continue, but it may not function properly.\n\n" | fold -s -w 80
+	
+	read -n 1 -p "Press any key to continue."
 fi
-
-
-
-chmod +x Sharpii
-
-rm -rf Temp
-
-printf "${rc24_str}==rc24.sh Patcher Output==\n\n" > rc24output.txt
 
 
 
 while true
 do
 	clear
-	printf "${rc24_str}====Main Menu===================================================================\n\nRiiConnect your Wii!\n\n1. Start\n   - Start patching.\n2. Credits\n   - See who made this possible!\n\n3. Exit\n\n"
+	
+	printf "${rc24_str}====Main Menu===================================================================\n\n"
+	if [ ${rc24_beta} = 1 ]
+	then
+		printf "\055---WARNING---------------------------------------------------------------------\nThis version of rc24.sh is currently in beta. This means that you may experience bugs and encounter issues that would normally not be present in a stable version. If you encounter any bugs, please report them here:\n\nhttps://github.com/HTV04/rc24.sh/issues\n--------------------------------------------------------------------------------\n\n" | fold -s -w 80
+	fi
+	printf "RiiConnect your Wii!\n\n1. Start\n   - Start patching.\n2. Credits\n   - See who made this possible!\n\n3. Exit\n\n"
+	
 	read -p "Choose an option (by typing its number and pressing return): " rc24_choice
+	
 	case ${rc24_choice} in
 		1)
 			rc24device
@@ -678,7 +688,7 @@ do
 		3)
 			clear
 			
-			printf "Thank you for using this patcher! If you encountered any issues, please let me know here:\n\nhttps://github.com/HTV04/rc24.sh/issues\n\n" | fold -s -w 80
+			printf "Thank you for using this patcher! If you encountered any issues, please report them here:\n\nhttps://github.com/HTV04/rc24.sh/issues\n\n" | fold -s -w 80
 			
 			exit
 			;;

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# "Build" script for rc24.sh releases
+# "Build" Script for rc24.sh v1.0
 # By HTV04
 
 if ! command -v zip &> /dev/null
