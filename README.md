@@ -7,7 +7,7 @@ rc24.sh is heavily inspired by the [original RiiConnect24 Patcher](https://githu
 
 [TheShadowEevee](https://github.com/TheShadowEevee) ported person66's Sharpii to .NET Core, allowing Sharpii to work flawlessly on Unix-like operating systems. Check it out [here](https://github.com/TheShadowEevee/Sharpii-NetCore)!
 
-[KuraiKoroko](https://github.com/KuraiKokoro) is working on a [Python-based RiiConnect24 patcher](https://github.com/KuraiKokoro/RiiConnect24-PyPatcher), with the goal of working on several operating systems, including Windows, macOS, Linux, and even Android!
+[KuraiKokoro](https://github.com/KuraiKokoro) is working on a [Python-based RiiConnect24 patcher](https://github.com/KuraiKokoro/RiiConnect24-PyPatcher), with the goal of working on several operating systems, including Windows, macOS, Linux, and even Android!
 
 Finally, please check out the [RiiConnect24 website](https://rc24.xyz/) if you haven't already.
 
