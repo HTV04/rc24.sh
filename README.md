@@ -1,6 +1,8 @@
 # rc24.sh
 ![rc24.sh Screenshot](/images/rc24.sh_Screenshot.png)
 
+Current BETA version: v0.5
+
 rc24.sh is a patcher for RiiConnect24 services, written in Bash. Currently, it is supported on Linux, and will soon support macOS.
 
 rc24.sh is heavily inspired by the [original RiiConnect24 Patcher](https://github.com/RiiConnect24/RiiConnect24-Patcher) for Windows by [KcrPL](https://github.com/KcrPL), so please check that out!
@@ -15,7 +17,6 @@ Finally, please check out the [RiiConnect24 website](https://rc24.xyz/) if you h
 * HTV04: rc24.sh developer
 * TheShadowEevee, person66, and leathl: Sharpii-NetCore, Sharpii, and libWiiSharp developers
 * KcrPL and Larsenv: RiiConnect24 founders, original RiiConnect24 Patcher developers
-* And you!
 
 ## Setup
 ### Linux
