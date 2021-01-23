@@ -673,7 +673,7 @@ do
 	then
 		printf "${rc24_str}====Main Menu===================================================================\n\n\"RiiConnect\" your Wii!\n\n1. Start\n   - Start patching.\n2. Credits\n   - See who made this possible!\n\n3. Exit\n\n"
 	else
-		printf "${rc24_str}====Main Menu===================================================================\n\n----WARNING---------------------------------------------------------------------\nThis version of rc24.sh is currently in beta. This means that you may experience bugs and encounter issues that would normally not be present in a stable version. If you encounter any bugs, please report them here:\n\nhttps://github.com/HTV04/rc24.sh/issues\n--------------------------------------------------------------------------------\n\n\"RiiConnect\" your Wii!\n\n1. Start\n   - Start patching.\n2. Credits\n   - See who made this possible!\n\n3. Exit\n\n" | fold -s -w 80
+		printf "${rc24_str}====Main Menu===================================================================\n\n----BETA Warning----------------------------------------------------------------\nThis version of rc24.sh is currently in beta. This means that you may experience bugs and encounter issues that would normally not be present in a stable version. If you encounter any bugs, please report them here:\n\nhttps://github.com/HTV04/rc24.sh/issues\n--------------------------------------------------------------------------------\n\n\"RiiConnect\" your Wii!\n\n1. Start\n   - Start patching.\n2. Credits\n   - See who made this possible!\n\n3. Exit\n\n" | fold -s -w 80
 	fi
 	
 	read -p "Choose an option (by typing its number and pressing return): " rc24_choice
