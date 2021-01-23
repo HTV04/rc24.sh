@@ -1,7 +1,7 @@
 # rc24.sh
 ![rc24.sh Screenshot](/images/rc24.sh_Screenshot.png)
 
-Current BETA version: v0.5
+Current BETA version: [v0.5](https://github.com/HTV04/rc24.sh/releases/tag/BETA-v0.5)
 
 rc24.sh is a patcher for RiiConnect24 services, written in Bash. Currently, it is supported on Linux, and will soon support macOS.
 
