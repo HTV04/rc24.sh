@@ -13,7 +13,7 @@ Finally, please check out the [RiiConnect24 website](https://rc24.xyz/) if you h
 
 ## Credits
 * HTV04: rc24.sh developer
-* TheShadowEeevee, person66, and leathl: Sharpii-NetCore, Sharpii, and libWiiSharp developers
+* TheShadowEevee, person66, and leathl: Sharpii-NetCore, Sharpii, and libWiiSharp developers
 * KcrPL and Larsenv: RiiConnect24 founders, original RiiConnect24 Patcher developers
 * And you!
 
