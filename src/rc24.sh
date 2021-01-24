@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# rc24.sh for Linux BETA v0.7
+# rc24.sh BETA v0.7
 # By HTV04
 
 # Get file from RiiConnect24 website and save it to output
@@ -617,8 +617,6 @@ rc24_ver=v0.7
 
 rc24_facts=("Did you know that the Wii was the best selling game-console of 2006?" "RiiConnect24 originally started out as \"CustomConnect24!\"" "Did you the RiiConnect24 logo was made by NeoRame, the same person who made the Wiimmfi logo?" "The Wii was codenamed \"Revolution\" during its development stage." "Did you know the letters in the Wii model number \"RVL\" stands for the Wii's codename, \"Revolution\"?" "The music used in many of the Wii's channels (including the Wii Shop, Mii, Check Mii Out, and Forecast Channels) was composed by Kazumi Totaka." "The Internet Channel once costed 500 Wii Points, but was later made freeware." "It's possible to use candles as a Wii Sensor Bar." "The blinking blue light that indicates a system message has been received is actually synced to the bird call of the Japanese bush warbler." "Wii Sports is the most sold game on the Wii. It sold 82.85 million copies." "Did you know that most of the scripts used to make RiiConnect24 work are written in Python?" "Thanks to Spotlight for making RiiConnect24's mail system secure!" "Did you know that RiiConnect24 has a Discord server where you can stay updated about the project status?" "The Everybody Votes Channel was originally an idea about sending quizzes and questions daily to Wii consoles." "The News Channel developers had an idea at some point about making a dad's Mii the news caster in the channel, but it probably didn't make the cut because some articles aren't appropriate for kids." "The Everybody Votes Channel was originally called the \"Questionnaire Channel\", then \"Citizens Vote Channel.\"" "The Forecast Channel has a \"laundry index\" to show how appropriate it is to dry your clothes outside, and a \"pollen count\" in the Japanese version." "During the development of the Forecast Channel, Nintendo of America's department got hit by a thunderstorm, and the developers of the channel in Japan lost contact with them." "The News Channel has an alternate slide show song that plays at night." "During E3 2006, Satoru Iwata said WiiConnect24 uses as much power as a miniature lightbulb while the console is in Standby mode." "The effect used when rapidly zooming in and out of photos on the Photo Channel was implemented into the News Channel to zoom in and out of text." "The help cats in the News Channel and the Photo Channel are brother and sister (the one in the News Channel being male, and the Photo Channel being a younger female)." "The Japanese version of the Forecast Channel does not show the current forecast." "The Forecast Channel, News Channel and the Photo Channel were made by nearly the same team." "The first worldwide Everybody Votes Channel question about if you like dogs or cats more got more than 500,000 votes." "The night song that plays when viewing the local forecast in the Forecast Channel was made before the day song, that was requested to make people not feel sleepy when it was played during the day." "The globe used in the Forecast and News Channels is based on imagery from NASA, and the same globe was used in Mario Kart Wii." "You can press the RESET button while the Wii is in Standby mode to turn off the blue light that glows when you receive a message.")
 
-printf "${rc24_str}==rc24.sh Patcher Output==\n\n" > rc24output.txt
-
 
 
 # Run checks
@@ -626,19 +624,24 @@ clear
 
 if [ ${rc24_beta} != 1 ]
 then
-	rc24_str="\033[1mrc24.sh for Linux ${rc24_ver}\nBy HTV04 and SketchMaster2001\033[0m\n\n"
+	rc24_str="\033[1mrc24.sh ${rc24_ver}\nBy HTV04 and SketchMaster2001\033[0m\n\n"
+	rc24_str_raw="rc24.sh ${rc24_ver}\nBy HTV04 and SketchMaster2001\n\n"
+	
 else
-	rc24_str="\033[1mrc24.sh for Linux BETA ${rc24_ver}\nBy HTV04 and SketchMaster2001\033[0m\n\n"
+	rc24_str="\033[1mrc24.sh BETA ${rc24_ver}\nBy HTV04 and SketchMaster2001\033[0m\n\n"
+	rc24_str_raw="rc24.sh BETA ${rc24_ver}\nBy HTV04 and SketchMaster2001\n\n"
 fi
 
 printf "${rc24_str}Now loading...\n\n"
 
-if ! command -v curl >> rc24output.txt 2>&1 rc24output.txt
+printf "${rc24_str_raw}==rc24.sh Patcher Output==\n\n" > rc24output.txt
+
+if ! command -v curl >> rc24output.txt 2>&1
 then
 	printf "\"curl\" command not found! Please install the \"curl\" package using your package manager.\n\n" | fold -s -w 80
 	exit
 fi
-if ! command -v xdelta3 >> rc24output.txt 2>&1 rc24output.txt
+if ! command -v xdelta3 >> rc24output.txt 2>&1
 then
 	printf "\"xdelta3\" command not found! Please install the \"xdelta3\" package using your package manager.\n\n" | fold -s -w 80
 	exit
@@ -655,13 +658,13 @@ then
 	exit
 fi
 
-if ! ping -c 1 -q -W 1 google.com >> rc24output.txt 
+if ! ping -c 1 -q -W 1 google.com >> rc24output.txt 2>&1
 then
 	printf "Unable to connect to internet! Please check your internet connection.\n\n"
 	exit
 fi
 
-if ! ping -c 1 -q -W 1 nus.cdn.shop.wii.com >> rc24output.txt 
+if ! ping -c 1 -q -W 1 nus.cdn.shop.wii.com >> rc24output.txt 2>&1
 then
 	printf "Warning: The NUS is either offline, or your device is unable to connect to it. The patcher will continue, but it may not function properly.\n\n" | fold -s -w 80
 	
