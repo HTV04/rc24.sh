@@ -1,7 +1,30 @@
 #!/usr/bin/env bash
 
 # rc24.sh BETA v0.7
-# By HTV04
+# By HTV04 and SketchMaster2001
+
+# Print with word wrap
+rc24print () {
+	printf "${1}" | fold -s -w $(tput cols)
+}
+
+# Print title
+rc24title () {
+	rc24print "${rc24_str}====${1}"
+	printf "=%.0s" $(seq 1 $(($(tput cols) - (${#1} + 4))))
+	rc24print "\n\n"
+}
+
+# Print subtitle
+rc24subtitle () {
+	rc24print "\055---${1}"
+	printf "\055%.0s" $(seq 1 $(($(tput cols) - (${#1} + 4))))
+	rc24print "\n${2}\n"
+	printf "\055%.0s" $(seq 1 $(tput cols))
+	rc24print "\n\n"
+}
+
+
 
 # Get file from RiiConnect24 website and save it to output
 rc24get () {
@@ -83,7 +106,9 @@ rc24device () {
 	while true
 	do
 		clear
-		printf "${rc24_str}====Choose Device===============================================================\n\nWelcome to rc24.sh!\nWith this program, you can patch your Wii or Wii U for use with RiiConnect24.\n\nSo, what device are we patching today?\n\n1. Wii\n2. vWii (Wii U)\n\n"
+		
+		rc24title "Choose Device"
+		rc24print "Welcome to rc24.sh!\nWith this program, you can patch your Wii or Wii U for use with RiiConnect24.\n\nSo, what device are we patching today?\n\n1. Wii\n2. vWii (Wii U)\n\n"
 		
 		read -p "Choose an option: " rc24_choice
 		case ${rc24_choice} in
@@ -109,7 +134,8 @@ rc24device () {
 rc24credits () {
 	clear
 	
-	printf "${rc24_str}====rc24.sh Credits=============================================================\n\nCredits:\n    - HTV04 and SketchMaster2001: rc24.sh developers\n    - TheShadowEevee, person66, and leathl: Sharpii-NetCore, Sharpii, and\n      libWiiSharp developers\n    - KcrPL and Larsenv: RiiConnect24 founders, original RiiConnect24 Patcher\n      developers\n    - And you!\n\nSource code: https://github.com/HTV04/rc24.sh\nRiiConnect24 website: https://rc24.xyz/\n\nrc24.sh and RiiConnect24 are made by Wii fans, for Wii fans!\n\n"
+	rc24title "rc24.sh Credits"
+	rc24print "Credits:\n    - HTV04 and SketchMaster2001: rc24.sh developers\n    - TheShadowEevee, person66, and leathl: Sharpii-NetCore, Sharpii, and libWiiSharp developers\n    - KcrPL and Larsenv: RiiConnect24 founders, original RiiConnect24 Patcher developers\n    - And you!\n\nSource code: https://github.com/HTV04/rc24.sh\nRiiConnect24 website: https://rc24.xyz/\n\nrc24.sh and RiiConnect24 are made by Wii fans, for Wii fans!\n\n"
 	
 	read -n 1 -p "Press any key to return to the main menu."
 }
@@ -120,59 +146,60 @@ rc24refresh () {
 	
 	if [ ${rc24_device} = wii ]
 	then
-		printf "${rc24_str}====Installing RiiConnect24 (Wii)===============================================\n\nNow patching. This may take a few minutes, depending on your internet speed.\n\n"
+		rc24title "Installing RiiConnect24 (Wii)"
 	elif [ ${rc24_device} = vwii ]
 	then
-		printf "${rc24_str}====Installing RiiConnect24 (vWii)==============================================\n\nNow patching. This may take a few minutes, depending on your internet speed.\n\n"
+		rc24title "Installing RiiConnect24 (vWii)"
 	fi
+	rc24print "Now patching. This may take a few minutes, depending on your internet speed.\n\n"
 	
 	if [ ${rc24_patch[0]} = 1 ]
 	then
 		if [ ${rc24_patched[0]} = 1 ]
 		then
-			printf "[X] System Patches\n"
+			rc24print "[X] System Patches\n"
 		else
-			printf "[ ] System Patches\n"
+			rc24print "[ ] System Patches\n"
 		fi
 	fi
 	if [ ${rc24_patch[1]} = 1 ]
 	then
 		if [ ${rc24_patched[1]} = 1 ]
 		then
-			printf "[X] Forecast and News Channels\n"
+			rc24print "[X] Forecast and News Channels\n"
 		else
-			printf "[ ] Forecast and News Channels\n"
+			rc24print "[ ] Forecast and News Channels\n"
 		fi
 	fi
 	if [ ${rc24_patch[2]} = 1 ]
 	then
 		if [ ${rc24_patched[2]} = 1 ]
 		then
-			printf "[X] Check Mii Out/Mii Contest Channel\n"
+			rc24print "[X] Check Mii Out/Mii Contest Channel\n"
 		else
-			printf "[ ] Check Mii Out/Mii Contest Channel\n"
+			rc24print "[ ] Check Mii Out/Mii Contest Channel\n"
 		fi
 	fi
 	if [ ${rc24_patch[3]} = 1 ]
 	then
 		if [ ${rc24_patched[3]} = 1 ]
 		then
-			printf "[X] Everybody Votes Channel\n"
+			rc24print "[X] Everybody Votes Channel\n"
 		else
-			printf "[ ] Everybody Votes Channel\n"
+			rc24print "[ ] Everybody Votes Channel\n"
 		fi
 	fi
 	if [ ${rc24_patch[4]} = 1 ]
 	then
 		if [ ${rc24_patched[4]} = 1 ]
 		then
-			printf "[X] Nintendo Channel\n"
+			rc24print "[X] Nintendo Channel\n"
 		else
-			printf "[ ] Nintendo Channel\n"
+			rc24print "[ ] Nintendo Channel\n"
 		fi
 	fi
 	
-	printf "\n----Fun Fact--------------------------------------------------------------------\n${rc24_facts[${RANDOM} % ${#rc24_facts[@]}]}\n--------------------------------------------------------------------------------" | fold -s -w 80
+	rc24subtitle "Fun Fact" "${rc24_facts[${RANDOM} % ${#rc24_facts[@]}]}"
 }
 
 # Patcher finish message
@@ -181,7 +208,8 @@ rc24finish () {
 	
 	rm -rf Temp
 	
-	printf "${rc24_str}====Complete====================================================================\n\nrc24.sh has succesfully completed the requested operation.\n\nOutput has been saved to \"rc24output.txt,\" in case you need it.\n\n"
+	rc24title "Complete"
+	rc24print "rc24.sh has succesfully completed the requested operation.\n\nOutput has been saved to \"rc24output.txt,\" in case you need it.\n\n"
 	
 	read -n 1 -p "Press any key to return to the main menu."
 }
@@ -191,7 +219,9 @@ rc24region () {
 	while true
 	do
 		clear
-		printf "${rc24_str}====Choose Region===============================================================\n\nWhat region is your device from?\n1. Europe (PAL)\n2. Japan (NTSC-J)\n3. USA (NTSC-U)\n\n"
+		
+		rc24title "Choose Region"
+		rc24print "What region is your device from?\n1. Europe (PAL)\n2. Japan (NTSC-J)\n3. USA (NTSC-U)\n\n"
 		
 		read -p "Choose an option: " rc24_choice
 		case ${rc24_choice} in
@@ -227,51 +257,52 @@ rc24custom () {
 		
 		if [ ${rc24_device} = wii ]
 		then
-			printf "${rc24_str}====Custom Install (Wii)========================================================\n\nThe recommended options for a new RiiConnect24 install are toggled on by default.\n\n"  | fold -s -w 80
+			rc24title "Custom Install (Wii)"
 		elif [ ${rc24_device} = vwii ]
 		then
-			printf "${rc24_str}====Custom Install (vWii)=======================================================\n\nThe recommended options for a new RiiConnect24 install are toggled on by default.\n\n"  | fold -s -w 80
+			rc24title "Custom Install (vWii)"
 		fi
+		rc24print "The recommended options for a new RiiConnect24 install are toggled on by default.\n\n"
 		
 		if [ ${rc24_patch[0]} = 1 ]
 		then
-			printf "1. [X] System Patches (Required, only toggle off if already installed!)\n"
+			rc24print "1. [X] System Patches (Required, only toggle off if already installed!)\n"
 		else
-			printf "1. [ ] System Patches (Required, only toggle off if already installed!)\n"
+			rc24print "1. [ ] System Patches (Required, only toggle off if already installed!)\n"
 		fi
 		if [ ${rc24_patch[1]} = 1 ]
 		then
-			printf "2. [X] Forecast and News Channels\n"
+			rc24print "2. [X] Forecast and News Channels\n"
 		else
-			printf "2. [ ] Forecast and News Channels\n"
+			rc24print "2. [ ] Forecast and News Channels\n"
 		fi
 		if [ ${rc24_patch[2]} = 1 ]
 		then
-			printf "3. [X] Check Mii Out/Mii Contest Channel\n"
+			rc24print "3. [X] Check Mii Out/Mii Contest Channel\n"
 		else
-			printf "3. [ ] Check Mii Out/Mii Contest Channel\n"
+			rc24print "3. [ ] Check Mii Out/Mii Contest Channel\n"
 		fi
 		if [ ${rc24_patch[3]} = 1 ]
 		then
-			printf "4. [X] Everybody Votes Channel\n"
+			rc24print "4. [X] Everybody Votes Channel\n"
 		else
-			printf "4. [ ] Everybody Votes Channel\n"
+			rc24print "4. [ ] Everybody Votes Channel\n"
 		fi
 		if [ ${rc24_patch[4]} = 1 ]
 		then
-			printf "5. [X] Nintendo Channel\n\n"
+			rc24print "5. [X] Nintendo Channel\n\n"
 		else
-			printf "5. [ ] Nintendo Channel\n\n"
+			rc24print "5. [ ] Nintendo Channel\n\n"
 		fi
 		
 		if [ ${rc24_apps} = 1 ]
 		then
-			printf "6. [X] Download Utilities (Required, only toggle off if already installed!)\n\n"
+			rc24print "6. [X] Download Utilities (Required, only toggle off if already installed!)\n\n"
 		else
-			printf "6. [ ] Download Utilities (Required, only toggle off if already installed!)\n\n"
+			rc24print "6. [ ] Download Utilities (Required, only toggle off if already installed!)\n\n"
 		fi
 		
-		printf "7. Continue\n\n"
+		rc24print "7. Continue\n\n"
 		
 		read -n 1 -p "Type the number of an option to toggle it: " rc24_choice
 		case ${rc24_choice} in
@@ -340,7 +371,8 @@ rc24wii () {
 	do
 		clear
 		
-		printf "${rc24_str}====Patcher Mode (Wii)==========================================================\n\n1. Install RiiConnect24 on your Wii\n   - The patcher will guide you through process of installing RiiConnect24.\n\n2. Uninstall RiiConnect24 from your Wii\n   - This will help you uninstall RiiConnect24 from your Wii.\n\n"
+		rc24title "Patcher Mode (Wii)"
+		rc24print "1. Install RiiConnect24 on your Wii\n   - The patcher will guide you through process of installing RiiConnect24.\n\n2. Uninstall RiiConnect24 from your Wii\n   - This will help you uninstall RiiConnect24 from your Wii.\n\n"
 		
 		read -p "Choose an option: " rc24_choice
 		case ${rc24_choice} in
@@ -358,7 +390,8 @@ rc24wiiprepare () {
 	do
 		clear
 		
-		printf "${rc24_str}====Preparing to Install RiiConnect24 (Wii)=====================================\n\nChoose instalation type:\n1. Express (Recommended)\n  - This will patch every channel for later use on your Wii. This includes:\n    - Check Mii Out Channel/Mii Contest Channel\n    - Everybody Votes Channel\n    - Forecast Channel\n    - News Channel\n    - Nintendo Channel\n    - Wii Mail\n\n2. Custom\n   - You will be asked what you want to patch.\n\n3. Back\n\n"
+		rc24title "Preparing to Install RiiConnect24 (Wii)"
+		rc24print "Choose instalation type:\n1. Express (Recommended)\n  - This will patch every channel for later use on your Wii. This includes:\n    - Check Mii Out Channel/Mii Contest Channel\n    - Everybody Votes Channel\n    - Forecast Channel\n    - News Channel\n    - Nintendo Channel\n    - Wii Mail\n\n2. Custom\n   - You will be asked what you want to patch.\n\n3. Back\n\n"
 		
 		read -p "Choose an option: " rc24_choice
 		case ${rc24_choice} in
@@ -479,7 +512,8 @@ rc24vwii () {
 	do
 		clear
 		
-		printf "${rc24_str}====Patcher Mode (vWii)=========================================================\n\n1. Install RiiConnect24 on your vWii\n   - The patcher will guide you through process of installing RiiConnect24.\n\n2. Uninstall RiiConnect24 from your vWii\n   - This will help you uninstall RiiConnect24 from your vWii.\n\n"
+		rc24title "Patcher Mode (vWii)"
+		rc24print "1. Install RiiConnect24 on your vWii\n   - The patcher will guide you through process of installing RiiConnect24.\n\n2. Uninstall RiiConnect24 from your vWii\n   - This will help you uninstall RiiConnect24 from your vWii.\n\n"
 		
 		read -p "Choose an option: " rc24_choice
 		case ${rc24_choice} in
@@ -497,7 +531,8 @@ rc24vwiiprepare () {
 	do
 		clear
 		
-		printf "${rc24_str}====Preparing to Install RiiConnect24 (vWii)====================================\n\nChoose instalation type:\n1. Express (Recommended)\n  - This will patch every channel for later use on your vWii. This includes:\n    - Check Mii Out Channel/Mii Contest Channel\n    - Everybody Votes Channel\n    - Forecast Channel\n    - News Channel\n    - Nintendo Channel\n\n2. Custom\n   - You will be asked what you want to patch.\n\n3. Back\n\n"
+		rc24title "Preparing to Install RiiConnect24 (vWii)"
+		rc24print "Choose instalation type:\n1. Express (Recommended)\n  - This will patch every channel for later use on your vWii. This includes:\n    - Check Mii Out Channel/Mii Contest Channel\n    - Everybody Votes Channel\n    - Forecast Channel\n    - News Channel\n    - Nintendo Channel\n\n2. Custom\n   - You will be asked what you want to patch.\n\n3. Back\n\n"
 		
 		read -p "Choose an option: " rc24_choice
 		case ${rc24_choice} in
@@ -624,49 +659,47 @@ clear
 
 if [ ${rc24_beta} != 1 ]
 then
-	rc24_str="\033[1mrc24.sh ${rc24_ver}\nBy HTV04 and SketchMaster2001\033[0m\n\n"
-	rc24_str_raw="rc24.sh ${rc24_ver}\nBy HTV04 and SketchMaster2001\n\n"
+	rc24_str="rc24.sh ${rc24_ver}\nBy HTV04 and SketchMaster2001\n\n"
 	
 else
-	rc24_str="\033[1mrc24.sh BETA ${rc24_ver}\nBy HTV04 and SketchMaster2001\033[0m\n\n"
-	rc24_str_raw="rc24.sh BETA ${rc24_ver}\nBy HTV04 and SketchMaster2001\n\n"
+	rc24_str="rc24.sh BETA ${rc24_ver}\nBy HTV04 and SketchMaster2001\n\n"
 fi
 
-printf "${rc24_str}Now loading...\n\n"
+rc24print "${rc24_str}Now loading...\n\n"
 
-printf "${rc24_str_raw}==rc24.sh Patcher Output==\n\n" > rc24output.txt
+rc24print "${rc24_str}==rc24.sh Patcher Output==\n\n" > rc24output.txt
 
 if ! command -v curl >> rc24output.txt 2>&1
 then
-	printf "\"curl\" command not found! Please install the \"curl\" package using your package manager.\n\n" | fold -s -w 80
+	rc24print "\"curl\" command not found! Please install the \"curl\" package using your package manager.\n\n"
 	exit
 fi
 if ! command -v xdelta3 >> rc24output.txt 2>&1
 then
-	printf "\"xdelta3\" command not found! Please install the \"xdelta3\" package using your package manager.\n\n" | fold -s -w 80
+	rc24print "\"xdelta3\" command not found! Please install the \"xdelta3\" package using your package manager.\n\n"
 	exit
 fi
 
 if [ ! -d Files ]
 then
-	printf "\"Files\" directory missing! Please ensure that the release ZIP has been extracted correctly.\n\n" | fold -s -w 80
+	rc24print "\"Files\" directory missing! Please ensure that the release ZIP has been extracted correctly.\n\n"
 	exit
 fi
 if [ ! -f Sharpii ]
 then
-	printf "Sharpii binary missing! Please ensure that that the release ZIP has been extracted correctly.\n\n" | fold -s -w 80
+	rc24print "Sharpii binary missing! Please ensure that that the release ZIP has been extracted correctly.\n\n"
 	exit
 fi
 
 if ! ping -c 1 -q -W 1 google.com >> rc24output.txt 2>&1
 then
-	printf "Unable to connect to internet! Please check your internet connection.\n\n"
+	rc24print "Unable to connect to internet! Please check your internet connection.\n\n"
 	exit
 fi
 
 if ! ping -c 1 -q -W 1 nus.cdn.shop.wii.com >> rc24output.txt 2>&1
 then
-	printf "Warning: The NUS is either offline, or your device is unable to connect to it. The patcher will continue, but it may not function properly.\n\n" | fold -s -w 80
+	rc24print "Warning: The NUS is either offline, or your device is unable to connect to it. The patcher will continue, but it may not function properly.\n\n"
 	
 	read -n 1 -p "Press any key to continue."
 fi
@@ -678,12 +711,12 @@ while true
 do
 	clear
 	
-	if [ ${rc24_beta} != 1 ]
+	rc24title "Main Menu"
+	if [ ${rc24_beta} = 1 ]
 	then
-		printf "${rc24_str}====Main Menu===================================================================\n\n\"RiiConnect\" your Wii!\n\n1. Start\n   - Start patching.\n2. Credits\n   - See who made this possible!\n\n3. Exit\n\n"
-	else
-		printf "${rc24_str}====Main Menu===================================================================\n\n----BETA Warning----------------------------------------------------------------\nThis version of rc24.sh is currently in beta. This means that you may experience bugs and encounter issues that would normally not be present in a stable version. If you encounter any bugs, please report them here:\n\nhttps://github.com/HTV04/rc24.sh/issues\n--------------------------------------------------------------------------------\n\n\"RiiConnect\" your Wii!\n\n1. Start\n   - Start patching.\n2. Credits\n   - See who made this possible!\n\n3. Exit\n\n" | fold -s -w 80
+		rc24subtitle "BETA Warning" "This version of rc24.sh is currently in beta. This means that you may experience bugs and encounter issues that would normally not be present in a stable version. If you encounter any bugs, please report them here:\n\nhttps://github.com/HTV04/rc24.sh/issues"
 	fi
+	rc24print "\"RiiConnect\" your Wii!\n\n1. Start\n   - Start patching.\n2. Credits\n   - See who made this possible!\n\n3. Exit\n\n"
 	
 	read -p "Choose an option (by typing its number and pressing return): " rc24_choice
 	
@@ -697,7 +730,7 @@ do
 		3)
 			clear
 			
-			printf "Thank you for using this patcher! If you encountered any issues, please report them here:\n\nhttps://github.com/HTV04/rc24.sh/issues\n\n" | fold -s -w 80
+			rc24print "Thank you for using this patcher! If you encountered any issues, please report them here:\n\nhttps://github.com/HTV04/rc24.sh/issues\n\n"
 			
 			exit
 			;;
