@@ -304,56 +304,26 @@ rc24custom () {
 		
 		rc24print "7. Continue\n\n"
 		
-		read -n 1 -p "Type the number of an option to toggle it: " rc24_choice
+		read -n 1 -p "Type the number of an option to toggle it:" rc24_choice
 		case ${rc24_choice} in
 			1)
-				if [ ${rc24_patch[0]} = 1 ]
-				then
-					rc24_patch[0]=0
-				else
-					rc24_patch[0]=1
-				fi
+				rc24_patch[0]=$((1 - ${rc24_patch[0]}))
 				;;
 			2)
-				if [ ${rc24_patch[1]} = 1 ]
-				then
-					rc24_patch[1]=0
-				else
-					rc24_patch[1]=1
-				fi
+				rc24_patch[1]=$((1 - ${rc24_patch[1]}))
 				;;
 			3)
-				if [ ${rc24_patch[2]} = 1 ]
-				then
-					rc24_patch[2]=0
-				else
-					rc24_patch[2]=1
-				fi
+				rc24_patch[2]=$((1 - ${rc24_patch[2]}))
 				;;
 			4)
-				if [ ${rc24_patch[3]} = 1 ]
-				then
-					rc24_patch[3]=0
-				else
-					rc24_patch[3]=1
-				fi
+				rc24_patch[3]=$((1 - ${rc24_patch[3]}))
 				;;
 			5)
-				if [ ${rc24_patch[4]} = 1 ]
-				then
-					rc24_patch[4]=0
-				else
-					rc24_patch[4]=1
-				fi
+				rc24_patch[4]=$((1 - ${rc24_patch[4]}))
 				;;
 			
 			6)
-				if [ ${rc24_apps} = 1 ]
-				then
-					rc24_apps=0
-				else
-					rc24_apps=1
-				fi
+				rc24_apps=$((1 - ${rc24_apps}))
 				;;
 			
 			7)
