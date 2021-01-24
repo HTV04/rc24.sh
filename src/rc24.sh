@@ -10,9 +10,9 @@ rc24print () {
 
 # Print title
 rc24title () {
-	rc24print "${rc24_str}====${1}"
-	printf "=%.0s" $(seq 1 $(($(tput cols) - (${#1} + 4))))
-	rc24print "\n\n"
+    	rc24print "${rc24_str}====${1}"
+    	printf "=%.0s" $(seq 1 $(($(tput cols) - (${#1} + 4))))
+    	rc24print "\n\n"
 }
 
 # Print subtitle
@@ -23,8 +23,6 @@ rc24subtitle () {
 	printf "\055%.0s" $(seq 1 $(tput cols))
 	rc24print "\n\n"
 }
-
-
 
 # Get file from RiiConnect24 website and save it to output
 rc24get () {
@@ -42,9 +40,9 @@ rc24patchios () {
 	
 	mv -f Temp/Working/Wii/IOS${1}/00000006_patched.app Temp/Working/Wii/IOS${1}/00000006.app
 	
-	./Sharpii wad -p Temp/Working/Wii/IOS${1} "Copy-to-SD/WAD/IOS${1}.wad" -f
+	./Sharpii wad -p Temp/Working/Wii/IOS${1} "$pathcp/WAD/IOS${1}.wad" -f
 	
-	./Sharpii ios "Copy-to-SD/WAD/IOS${1}.wad" -fs -es -np -vp
+	./Sharpii ios "$pathcp/WAD/IOS${1}.wad" -fs -es -np -vp
 } >> rc24output.txt 2>&1
 
 # Patch title
@@ -62,7 +60,7 @@ rc24patchtitle () {
 	
 	mv -f Temp/Working/${1}/${4}_patched.app Temp/Working/${1}/${4}.app
 	
-	./Sharpii wad -p Temp/Working/${1} "Copy-to-SD/WAD/${5} ${rc24_region}.wad" -f
+	./Sharpii wad -p Temp/Working/${1} "$pathcp/WAD/${5} ${rc24_region}.wad" -f
 } >> rc24output.txt 2>&1
 
 # Patch title with two patch files
@@ -82,7 +80,7 @@ rc24patchtitle2 () {
 	mv -f Temp/Working/${1}/${4}_patched.app Temp/Working/${1}/${4}.app
 	mv -f Temp/Working/${1}/${5}_patched.app Temp/Working/${1}/${5}.app
 	
-	./Sharpii wad -p Temp/Working/${1} "Copy-to-SD/WAD/${6} ${rc24_region}.wad" -f
+	./Sharpii wad -p Temp/Working/${1} "$pathcp/WAD/${6} ${rc24_region}.wad" -f
 } >> rc24output.txt 2>&1
 
 # Patch title with vWii attributes
@@ -96,7 +94,7 @@ rc24patchtitlevwii () {
 	
 	mv -f Temp/Working/${1}/${4}_patched.app Temp/Working/${1}/${4}.app
 	
-	./Sharpii wad -p Temp/Working/${1} "Copy-to-SD/WAD/${5} vWii ${rc24_region}.wad" -f
+	./Sharpii wad -p Temp/Working/${1} "$pathcp/WAD/${5} vWii ${rc24_region}.wad" -f
 } >> rc24output.txt 2>&1
 
 
@@ -106,7 +104,6 @@ rc24device () {
 	while true
 	do
 		clear
-		
 		rc24title "Choose Device"
 		rc24print "Welcome to rc24.sh!\nWith this program, you can patch your Wii or Wii U for use with RiiConnect24.\n\nSo, what device are we patching today?\n\n1. Wii\n2. vWii (Wii U)\n\n"
 		
@@ -133,9 +130,8 @@ rc24device () {
 # rc24.sh credits
 rc24credits () {
 	clear
-	
 	rc24title "rc24.sh Credits"
-	rc24print "Credits:\n    - HTV04 and SketchMaster2001: rc24.sh developers\n    - TheShadowEevee, person66, and leathl: Sharpii-NetCore, Sharpii, and libWiiSharp developers\n    - KcrPL and Larsenv: RiiConnect24 founders, original RiiConnect24 Patcher developers\n    - And you!\n\nSource code: https://github.com/HTV04/rc24.sh\nRiiConnect24 website: https://rc24.xyz/\n\nrc24.sh and RiiConnect24 are made by Wii fans, for Wii fans!\n\n"
+	rc24print "Credits:\n    - HTV04: rc24.sh developer\n    SketchMaster2001: rc24.sh developer\n    - TheShadowEevee, person66, and leathl: Sharpii-NetCore, Sharpii, and libWiiSharp developers\n    - KcrPL and Larsenv: RiiConnect24 founders, original RiiConnect24 Patcher developers\n    - And you!\n\nSource code: https://github.com/HTV04/rc24.sh\nRiiConnect24 website: https://rc24.xyz/\n\nrc24.sh and RiiConnect24 are made by Wii fans, for Wii fans!\n\n"
 	
 	read -n 1 -p "Press any key to return to the main menu."
 }
@@ -149,8 +145,9 @@ rc24refresh () {
 		rc24title "Installing RiiConnect24 (Wii)"
 	elif [ ${rc24_device} = vwii ]
 	then
-		rc24title "Installing RiiConnect24 (vWii)"
+		rc24title "Installing RiiConnect24 (vWii)"	
 	fi
+	
 	rc24print "Now patching. This may take a few minutes, depending on your internet speed.\n\n"
 	
 	if [ ${rc24_patch[0]} = 1 ]
@@ -219,7 +216,6 @@ rc24region () {
 	while true
 	do
 		clear
-		
 		rc24title "Choose Region"
 		rc24print "What region is your device from?\n1. Europe (PAL)\n2. Japan (NTSC-J)\n3. USA (NTSC-U)\n\n"
 		
@@ -260,8 +256,9 @@ rc24custom () {
 			rc24title "Custom Install (Wii)"
 		elif [ ${rc24_device} = vwii ]
 		then
-			rc24title "Custom Install (vWii)"
+			rc24title "Custom Install (vWii)"	
 		fi
+		
 		rc24print "The recommended options for a new RiiConnect24 install are toggled on by default.\n\n"
 		
 		if [ ${rc24_patch[0]} = 1 ]
@@ -304,31 +301,22 @@ rc24custom () {
 		
 		rc24print "7. Continue\n\n"
 		
-		read -n 1 -p "Type the number of an option to toggle it:" rc24_choice
+		read -n 1 -p "Type the number of an option to toggle it: " rc24_choice
 		case ${rc24_choice} in
-			1)
-				rc24_patch[0]=$((1 - ${rc24_patch[0]}))
-				;;
-			2)
-				rc24_patch[1]=$((1 - ${rc24_patch[1]}))
-				;;
-			3)
-				rc24_patch[2]=$((1 - ${rc24_patch[2]}))
-				;;
-			4)
-				rc24_patch[3]=$((1 - ${rc24_patch[3]}))
-				;;
-			5)
-				rc24_patch[4]=$((1 - ${rc24_patch[4]}))
-				;;
+			1)	rc24_patch[0]=$((1 - ${rc24_patch[0]})) ;;
 			
-			6)
-				rc24_apps=$((1 - ${rc24_apps}))
-				;;
+			2)	rc24_patch[0]=$((1 - ${rc24_patch[1]})) ;;
 			
-			7)
-				break
-				;;
+			3)	rc24_patch[0]=$((1 - ${rc24_patch[2]})) ;;
+				
+			4)	rc24_patch[0]=$((1 - ${rc24_patch[3]})) ;;
+				
+			5)	rc24_patch[0]=$((1 - ${rc24_patch[4]})) ;;
+				
+			6)	rc24_apps=$((1 - ${rc24_apps})) ;;
+				
+			7)	break ;;
+				
 		esac
 	done
 }
@@ -340,7 +328,6 @@ rc24wii () {
 	while true
 	do
 		clear
-		
 		rc24title "Patcher Mode (Wii)"
 		rc24print "1. Install RiiConnect24 on your Wii\n   - The patcher will guide you through process of installing RiiConnect24.\n\n2. Uninstall RiiConnect24 from your Wii\n   - This will help you uninstall RiiConnect24 from your Wii.\n\n"
 		
@@ -359,14 +346,14 @@ rc24wiiprepare () {
 	while true
 	do
 		clear
-		
-		rc24title "Preparing to Install RiiConnect24 (Wii)"
+		rc24title "Preparing to Install RiiConnect24 (Wii)" 
 		rc24print "Choose instalation type:\n1. Express (Recommended)\n  - This will patch every channel for later use on your Wii. This includes:\n    - Check Mii Out Channel/Mii Contest Channel\n    - Everybody Votes Channel\n    - Forecast Channel\n    - News Channel\n    - Nintendo Channel\n    - Wii Mail\n\n2. Custom\n   - You will be asked what you want to patch.\n\n3. Back\n\n"
 		
 		read -p "Choose an option: " rc24_choice
 		case ${rc24_choice} in
 			1)
 				rc24region
+				sd_detect
 				rc24_patch=(1 1 1 1 1)
 				rc24_apps=1
 				rc24wiipatch
@@ -376,6 +363,7 @@ rc24wiiprepare () {
 			2)
 				rc24region
 				rc24custom
+				sd_detect
 				rc24wiipatch
 				rc24finish
 				break
@@ -392,8 +380,8 @@ rc24wiipatch () {
 	rc24_patched=(0 0 0 0 0 0)
 	rc24refresh
 	
-	mkdir -p Copy-to-SD/WAD
-	mkdir -p Copy-to-SD/apps
+	if [ ! -d $pathcp/WAD ]; then mkdir -p $pathcp/WAD; fi
+	if [ ! -d $pathcp/apps ]; then mkdir -p $pathcp/apps; fi
 	
 	if [ ${rc24_patch[0]} = 1 ]
 	then
@@ -465,12 +453,12 @@ rc24wiipatch () {
 	
 	if [ ${rc24_apps} = 1 ]
 	then
-		rc24get apps/Mail-Patcher/boot.dol Copy-to-SD/apps/Mail-Patcher/boot.dol
-		rc24get apps/Mail-Patcher/icon.png Copy-to-SD/apps/Mail-Patcher/icon.png
-		rc24get apps/Mail-Patcher/meta.xml Copy-to-SD/apps/Mail-Patcher/meta.xml
-		rc24get apps/WiiModLite/boot.dol Copy-to-SD/apps/WiiModLite/boot.dol
-		rc24get apps/WiiModLite/icon.png Copy-to-SD/apps/WiiModLite/icon.png
-		rc24get apps/WiiModLite/meta.xml Copy-to-SD/apps/WiiModLite/meta.xml
+		rc24get apps/Mail-Patcher/boot.dol $pathcp/apps/Mail-Patcher/boot.dol
+		rc24get apps/Mail-Patcher/icon.png $pathcp/apps/Mail-Patcher/icon.png
+		rc24get apps/Mail-Patcher/meta.xml $pathcp/apps/Mail-Patcher/meta.xml
+		rc24get apps/WiiModLite/boot.dol $pathcp/apps/WiiModLite/boot.dol
+		rc24get apps/WiiModLite/icon.png $pathcp/apps/WiiModLite/icon.png
+		rc24get apps/WiiModLite/meta.xml $pathcp/apps/WiiModLite/meta.xml
 	fi
 }
 
@@ -481,8 +469,7 @@ rc24vwii () {
 	while true
 	do
 		clear
-		
-		rc24title "Patcher Mode (vWii)"
+		rc24title "Preparing to Install RiiConnect24 (vWii)"
 		rc24print "1. Install RiiConnect24 on your vWii\n   - The patcher will guide you through process of installing RiiConnect24.\n\n2. Uninstall RiiConnect24 from your vWii\n   - This will help you uninstall RiiConnect24 from your vWii.\n\n"
 		
 		read -p "Choose an option: " rc24_choice
@@ -500,7 +487,6 @@ rc24vwiiprepare () {
 	while true
 	do
 		clear
-		
 		rc24title "Preparing to Install RiiConnect24 (vWii)"
 		rc24print "Choose instalation type:\n1. Express (Recommended)\n  - This will patch every channel for later use on your vWii. This includes:\n    - Check Mii Out Channel/Mii Contest Channel\n    - Everybody Votes Channel\n    - Forecast Channel\n    - News Channel\n    - Nintendo Channel\n\n2. Custom\n   - You will be asked what you want to patch.\n\n3. Back\n\n"
 		
@@ -508,6 +494,7 @@ rc24vwiiprepare () {
 		case ${rc24_choice} in
 			1)
 				rc24region
+				sd_detect
 				rc24_patch=(1 1 1 1 1)
 				rc24_apps=1
 				rc24vwiipatch
@@ -517,6 +504,7 @@ rc24vwiiprepare () {
 			2)
 				rc24region
 				rc24custom
+				sd_detect
 				rc24vwiipatch
 				rc24finish
 				break
@@ -533,12 +521,12 @@ rc24vwiipatch () {
 	rc24_patched=(0 0 0 0 0 0)
 	rc24refresh
 	
-	mkdir -p Copy-to-SD/WAD
-	mkdir -p Copy-to-SD/apps
+	if [ ! -d $pathcp/WAD ]; then mkdir  -p $pathcp/WAD; fi
+	if [ ! -d $pathcp/apps ]; then mkdir  -p $pathcp/apps; fi
 	
 	if [ ${rc24_patch[0]} = 1 ]
 	then
-		rc24get IOSPatcher/IOS31_vwii.wad Copy-to-SD/WAD/vIOS31.wad
+		rc24get IOSPatcher/IOS31_vwii.wad $pathcp/WAD/vIOS31.wad
 		
 		rc24_patched[0]=1
 		rc24refresh
@@ -598,20 +586,59 @@ rc24vwiipatch () {
 	
 	if [ ${rc24_apps} = 1 ]
 	then
-		rc24get apps/ConnectMii_WAD/ConnectMii.wad Copy-to-SD/WAD/ConnectMii.wad
-		rc24get apps/ww-43db-patcher/boot.dol Copy-to-SD/apps/ww-43db-patcher/boot.dol
-		rc24get apps/ww-43db-patcher/icon.png Copy-to-SD/apps/ww-43db-patcher/icon.png
-		rc24get apps/ww-43db-patcher/meta.xml Copy-to-SD/apps/ww-43db-patcher/meta.xml
-		rc24get apps/WiiModLite/boot.dol Copy-to-SD/apps/WiiModLite/boot.dol
-		rc24get apps/WiiModLite/icon.png Copy-to-SD/apps/WiiModLite/icon.png
-		rc24get apps/WiiModLite/meta.xml Copy-to-SD/apps/WiiModLite/meta.xml
+		rc24get apps/ConnectMii_WAD/ConnectMii.wad $pathcp/WAD/ConnectMii.wad
+		rc24get apps/ww-43db-patcher/boot.dol $pathcp/apps/ww-43db-patcher/boot.dol
+		rc24get apps/ww-43db-patcher/icon.png $pathcp/apps/ww-43db-patcher/icon.png
+		rc24get apps/ww-43db-patcher/meta.xml $pathcp/apps/ww-43db-patcher/meta.xml
+		rc24get apps/WiiModLite/boot.dol $pathcp/apps/WiiModLite/boot.dol
+		rc24get apps/WiiModLite/icon.png $pathcp/apps/WiiModLite/icon.png
+		rc24get apps/WiiModLite/meta.xml $pathcp/apps/WiiModLite/meta.xml
 	fi
 }
 
+#SD Card detection system
 
+sd_detect() {
+    sdcard=null
+    for f in /Volumes/*/; do
+        if [[ -d $f/apps ]]; then
+            sdcard="$f"
+            echo $sdcard
+        fi
+    done
+
+	sd_echo
+}
+
+
+sd_echo() {
+    clear
+    rc24title "Detecting SD Card"
+	case $sdcard in
+		null) printf "Hmm... looks like an SD Card wasn't found in your system.\n\nPlease choose the Change volume name option to set your SD Card volume name manually\n\nOtherwise, you will have to copy them later\n\nWhat's next?\n\n1. Start Patching\n2. Change Volume Name\n\n" | fold -s -w "$(tput cols)" ;;
+		*) printf "Congrats! I've successfully detected your SD Card! Volume name: "$sdcard".\n\nI will be able to automatically download and install everything on your SD Card!\n\nWhat's next?\n\n1. Start Patching\n\n" | fold -s -w "$(tput cols)"; pathcp=$sdcard
+	esac
+    read -p "Choose: " s 
+
+	case $s in
+		1) rc24_patch ;;
+		2) vol_name ;;
+	esac 
+}
+
+vol_name() {
+    clear
+    rc24title "Change Volume Name"
+	echo "[*] SD Card\n\nCurrent SD Card Volume Name: $sdcard\n\nType in the new volume name (e.g. /Volumes/Wii)\n\n" | fold -s -w "$(tput cols)"
+    read -p "" sdcard
+
+	sd_echo
+}
 
 # Setup
+
 cd $(dirname ${0})
+pathcp=`dirname -- "$0"`
 
 rm -rf Temp
 
@@ -621,8 +648,6 @@ rc24_beta=1
 rc24_ver=v0.7
 
 rc24_facts=("Did you know that the Wii was the best selling game-console of 2006?" "RiiConnect24 originally started out as \"CustomConnect24!\"" "Did you the RiiConnect24 logo was made by NeoRame, the same person who made the Wiimmfi logo?" "The Wii was codenamed \"Revolution\" during its development stage." "Did you know the letters in the Wii model number \"RVL\" stands for the Wii's codename, \"Revolution\"?" "The music used in many of the Wii's channels (including the Wii Shop, Mii, Check Mii Out, and Forecast Channels) was composed by Kazumi Totaka." "The Internet Channel once costed 500 Wii Points, but was later made freeware." "It's possible to use candles as a Wii Sensor Bar." "The blinking blue light that indicates a system message has been received is actually synced to the bird call of the Japanese bush warbler." "Wii Sports is the most sold game on the Wii. It sold 82.85 million copies." "Did you know that most of the scripts used to make RiiConnect24 work are written in Python?" "Thanks to Spotlight for making RiiConnect24's mail system secure!" "Did you know that RiiConnect24 has a Discord server where you can stay updated about the project status?" "The Everybody Votes Channel was originally an idea about sending quizzes and questions daily to Wii consoles." "The News Channel developers had an idea at some point about making a dad's Mii the news caster in the channel, but it probably didn't make the cut because some articles aren't appropriate for kids." "The Everybody Votes Channel was originally called the \"Questionnaire Channel\", then \"Citizens Vote Channel.\"" "The Forecast Channel has a \"laundry index\" to show how appropriate it is to dry your clothes outside, and a \"pollen count\" in the Japanese version." "During the development of the Forecast Channel, Nintendo of America's department got hit by a thunderstorm, and the developers of the channel in Japan lost contact with them." "The News Channel has an alternate slide show song that plays at night." "During E3 2006, Satoru Iwata said WiiConnect24 uses as much power as a miniature lightbulb while the console is in Standby mode." "The effect used when rapidly zooming in and out of photos on the Photo Channel was implemented into the News Channel to zoom in and out of text." "The help cats in the News Channel and the Photo Channel are brother and sister (the one in the News Channel being male, and the Photo Channel being a younger female)." "The Japanese version of the Forecast Channel does not show the current forecast." "The Forecast Channel, News Channel and the Photo Channel were made by nearly the same team." "The first worldwide Everybody Votes Channel question about if you like dogs or cats more got more than 500,000 votes." "The night song that plays when viewing the local forecast in the Forecast Channel was made before the day song, that was requested to make people not feel sleepy when it was played during the day." "The globe used in the Forecast and News Channels is based on imagery from NASA, and the same globe was used in Mario Kart Wii." "You can press the RESET button while the Wii is in Standby mode to turn off the blue light that glows when you receive a message.")
-
-
 
 # Run checks
 clear
@@ -674,13 +699,10 @@ then
 	read -n 1 -p "Press any key to continue."
 fi
 
-
-
 # Main menu
 while true
 do
 	clear
-	
 	rc24title "Main Menu"
 	if [ ${rc24_beta} = 1 ]
 	then
