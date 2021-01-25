@@ -710,7 +710,7 @@ rc24title "Detecting SD Card"
 
 rc24print "Looking for SD card (drive with \"apps\" folder in root)..."
 
-sd_card=Copy-to-SD
+out_path=Copy-to-SD
 rc24detectsd
 
 case ${out_path} in
