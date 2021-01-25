@@ -511,12 +511,12 @@ rc24wiipatch () {
 	
 	if [ ${rc24_apps} = 1 ]
 	then
-		rc24get apps/Mail-Patcher/boot.dol Copy-to-SD/apps/Mail-Patcher/boot.dol
-		rc24get apps/Mail-Patcher/icon.png Copy-to-SD/apps/Mail-Patcher/icon.png
-		rc24get apps/Mail-Patcher/meta.xml Copy-to-SD/apps/Mail-Patcher/meta.xml
-		rc24get apps/WiiModLite/boot.dol Copy-to-SD/apps/WiiModLite/boot.dol
-		rc24get apps/WiiModLite/icon.png Copy-to-SD/apps/WiiModLite/icon.png
-		rc24get apps/WiiModLite/meta.xml Copy-to-SD/apps/WiiModLite/meta.xml
+		rc24get apps/Mail-Patcher/boot.dol "${out_path}/apps/Mail-Patcher/boot.dol"
+		rc24get apps/Mail-Patcher/icon.png "${out_path}/apps/Mail-Patcher/icon.png"
+		rc24get apps/Mail-Patcher/meta.xml "${out_path}/apps/Mail-Patcher/meta.xml"
+		rc24get apps/WiiModLite/boot.dol "${out_path}/apps/WiiModLite/boot.dol"
+		rc24get apps/WiiModLite/icon.png "${out_path}/apps/WiiModLite/icon.png"
+		rc24get apps/WiiModLite/meta.xml "${out_path}/apps/WiiModLite/meta.xml"
 	fi
 }
 
@@ -724,11 +724,6 @@ then
 	rc24print "\"Files\" directory missing! Please ensure that the release ZIP has been extracted correctly.\n\n"
 	exit
 fi
-if [ ! -f Sharpii ]
-then
-	rc24print "Sharpii binary missing! Please ensure that that the release ZIP has been extracted correctly.\n\n"
-	exit
-fi
 
 if ! ping -c 1 -q -W 1 google.com >> rc24output.txt 2>&1
 then
@@ -742,6 +737,12 @@ then
 	
 	read -n 1 -p "Press any key to continue."
 fi
+
+
+
+# Download needed files
+
+
 
 
 
