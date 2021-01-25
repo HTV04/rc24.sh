@@ -103,7 +103,7 @@ rc24patchtitlevwii () {
 
 # Try to detect SD card by looking for "apps" directory in root (to do: fix for Linux)
 rc24detectsd () {
-	for i in /Volumes/*/
+	for i in "/Volumes/*/"
 	do
 		if [ -d ${i}/apps ]
 		then
