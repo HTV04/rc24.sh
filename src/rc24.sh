@@ -696,13 +696,7 @@ rc24_facts=("Did you know that the Wii was the best selling game-console of 2006
 # Run checks
 clear
 
-if [ ${beta} != 1 ]
-then
-	rc24_str="rc24.sh ${ver}\nBy HTV04 and SketchMaster2001\n\n"
-	
-else
-	rc24_str="rc24.sh BETA ${ver}\nBy HTV04 and SketchMaster2001\n\n"
-fi
+rc24_str="rc24.sh ${ver}\nBy HTV04 and SketchMaster2001\n\n"
 
 rc24print "${rc24_str}Now loading...\n\n"
 
