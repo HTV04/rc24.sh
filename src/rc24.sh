@@ -448,12 +448,19 @@ rc24wiipatch () {
 	fi
 	if [ ${patch[2]} = 1 ]
 	then
-		rc24get CMOCPatcher/patch/00000001_Europe.delta Temp/Files/Patcher/CMOC/EUR/00000001.delta
-		rc24get CMOCPatcher/patch/00000004_Europe.delta Temp/Files/Patcher/CMOC/EUR/00000004.delta
-		rc24get CMOCPatcher/patch/00000001_Japan.delta Temp/Files/Patcher/CMOC/JPN/00000001.delta
-		rc24get CMOCPatcher/patch/00000004_Japan.delta Temp/Files/Patcher/CMOC/JPN/00000004.delta
-		rc24get CMOCPatcher/patch/00000001_USA.delta Temp/Files/Patcher/CMOC/USA/00000001.delta
-		rc24get CMOCPatcher/patch/00000004_USA.delta Temp/Files/Patcher/CMOC/USA/00000004.delta
+		if [ ${region} = EUR ]
+		then
+			rc24get CMOCPatcher/patch/00000001_Europe.delta Temp/Files/Patcher/CMOC/EUR/00000001.delta
+			rc24get CMOCPatcher/patch/00000004_Europe.delta Temp/Files/Patcher/CMOC/EUR/00000004.delta
+		elif [ ${region} = JPN ]
+		then
+			rc24get CMOCPatcher/patch/00000001_Japan.delta Temp/Files/Patcher/CMOC/JPN/00000001.delta
+			rc24get CMOCPatcher/patch/00000004_Japan.delta Temp/Files/Patcher/CMOC/JPN/00000004.delta
+		elif [ ${region} = USA ]
+		then
+			rc24get CMOCPatcher/patch/00000001_USA.delta Temp/Files/Patcher/CMOC/USA/00000001.delta
+			CMOCPatcher/patch/00000004_USA.delta Temp/Files/Patcher/CMOC/USA/00000004.delta
+		fi
 		
 		if [ ${region} = EUR ]
 		then
@@ -467,9 +474,16 @@ rc24wiipatch () {
 	fi
 	if [ ${patch[3]} = 1 ]
 	then
-		rc24get EVCPatcher/patch/Europe.delta Temp/Files/Patcher/EVC/EUR/00000001.delta
-		rc24get EVCPatcher/patch/JPN.delta Temp/Files/Patcher/EVC/JPN/00000001.delta
-		rc24get EVCPatcher/patch/USA.delta Temp/Files/Patcher/EVC/USA/00000001.delta
+		if [ ${region} = EUR ]
+		then
+			rc24get EVCPatcher/patch/Europe.delta Temp/Files/Patcher/EVC/EUR/00000001.delta
+		elif [ ${region} = JPN ]
+		then
+			rc24get EVCPatcher/patch/JPN.delta Temp/Files/Patcher/EVC/JPN/00000001.delta
+		elif [ ${region} = USA ]
+		then
+			rc24get EVCPatcher/patch/USA.delta Temp/Files/Patcher/EVC/USA/00000001.delta
+		fi
 		
 		rc24patchtitle EVC 0001000148414a 512 00000001 "Everybody Votes Channel"
 		
@@ -478,9 +492,16 @@ rc24wiipatch () {
 	fi
 	if [ ${patch[4]} = 1 ]
 	then
-		rc24get NCPatcher/patch/Europe.delta Temp/Files/Patcher/NC/EUR/00000001.delta
-		rc24get NCPatcher/patch/JPN.delta Temp/Files/Patcher/NC/JPN/00000001.delta
-		rc24get NCPatcher/patch/USA.delta Temp/Files/Patcher/NC/USA/00000001.delta
+		if [ ${region} = EUR ]
+		then
+			rc24get NCPatcher/patch/Europe.delta Temp/Files/Patcher/NC/EUR/00000001.delta
+		elif [ ${region} = JPN ]
+		then
+			rc24get NCPatcher/patch/JPN.delta Temp/Files/Patcher/NC/JPN/00000001.delta
+		elif [ ${region} = USA ]
+		then
+			rc24get NCPatcher/patch/USA.delta Temp/Files/Patcher/NC/USA/00000001.delta
+		fi
 		
 		rc24patchtitle NC 00010001484154 1792 00000001 "Nintendo Channel"
 		
@@ -488,14 +509,14 @@ rc24wiipatch () {
 		rc24refresh
 	fi
 	
-	if [ ${apps} = 1 ]
+	if [ ${rc24_apps} = 1 ]
 	then
-		rc24get apps/Mail-Patcher/boot.dol "${out_path}/apps/Mail-Patcher/boot.dol"
-		rc24get apps/Mail-Patcher/icon.png "${out_path}/apps/Mail-Patcher/icon.png"
-		rc24get apps/Mail-Patcher/meta.xml "${out_path}/apps/Mail-Patcher/meta.xml"
-		rc24get apps/WiiModLite/boot.dol "${out_path}/apps/WiiModLite/boot.dol"
-		rc24get apps/WiiModLite/icon.png "${out_path}/apps/WiiModLite/icon.png"
-		rc24get apps/WiiModLite/meta.xml "${out_path}/apps/WiiModLite/meta.xml"
+		rc24get apps/Mail-Patcher/boot.dol Copy-to-SD/apps/Mail-Patcher/boot.dol
+		rc24get apps/Mail-Patcher/icon.png Copy-to-SD/apps/Mail-Patcher/icon.png
+		rc24get apps/Mail-Patcher/meta.xml Copy-to-SD/apps/Mail-Patcher/meta.xml
+		rc24get apps/WiiModLite/boot.dol Copy-to-SD/apps/WiiModLite/boot.dol
+		rc24get apps/WiiModLite/icon.png Copy-to-SD/apps/WiiModLite/icon.png
+		rc24get apps/WiiModLite/meta.xml Copy-to-SD/apps/WiiModLite/meta.xml
 	fi
 }
 
@@ -581,12 +602,19 @@ rc24vwiipatch () {
 	fi
 	if [ ${patch[2]} = 1 ]
 	then
-		rc24get CMOCPatcher/patch/00000001_Europe.delta Temp/Files/Patcher/CMOC/EUR/00000001.delta
-		rc24get CMOCPatcher/patch/00000004_Europe.delta Temp/Files/Patcher/CMOC/EUR/00000004.delta
-		rc24get CMOCPatcher/patch/00000001_Japan.delta Temp/Files/Patcher/CMOC/JPN/00000001.delta
-		rc24get CMOCPatcher/patch/00000004_Japan.delta Temp/Files/Patcher/CMOC/JPN/00000004.delta
-		rc24get CMOCPatcher/patch/00000001_USA.delta Temp/Files/Patcher/CMOC/USA/00000001.delta
-		rc24get CMOCPatcher/patch/00000004_USA.delta Temp/Files/Patcher/CMOC/USA/00000004.delta
+		if [ ${region} = EUR ]
+		then
+			rc24get CMOCPatcher/patch/00000001_Europe.delta Temp/Files/Patcher/CMOC/EUR/00000001.delta
+			rc24get CMOCPatcher/patch/00000004_Europe.delta Temp/Files/Patcher/CMOC/EUR/00000004.delta
+		elif [ ${region} = JPN ]
+		then
+			rc24get CMOCPatcher/patch/00000001_Japan.delta Temp/Files/Patcher/CMOC/JPN/00000001.delta
+			rc24get CMOCPatcher/patch/00000004_Japan.delta Temp/Files/Patcher/CMOC/JPN/00000004.delta
+		elif [ ${region} = USA ]
+		then
+			rc24get CMOCPatcher/patch/00000001_USA.delta Temp/Files/Patcher/CMOC/USA/00000001.delta
+			CMOCPatcher/patch/00000004_USA.delta Temp/Files/Patcher/CMOC/USA/00000004.delta
+		fi
 		
 		if [ ${region} = EUR ]
 		then
@@ -600,9 +628,16 @@ rc24vwiipatch () {
 	fi
 	if [ ${patch[3]} = 1 ]
 	then
-		rc24get EVCPatcher/patch/Europe.delta Temp/Files/Patcher/EVC/EUR/00000001.delta
-		rc24get EVCPatcher/patch/JPN.delta Temp/Files/Patcher/EVC/JPN/00000001.delta
-		rc24get EVCPatcher/patch/USA.delta Temp/Files/Patcher/EVC/USA/00000001.delta
+		if [ ${region} = EUR ]
+		then
+			rc24get EVCPatcher/patch/Europe.delta Temp/Files/Patcher/EVC/EUR/00000001.delta
+		elif [ ${region} = JPN ]
+		then
+			rc24get EVCPatcher/patch/JPN.delta Temp/Files/Patcher/EVC/JPN/00000001.delta
+		elif [ ${region} = USA ]
+		then
+			rc24get EVCPatcher/patch/USA.delta Temp/Files/Patcher/EVC/USA/00000001.delta
+		fi
 		
 		rc24patchtitle EVC 0001000148414a 512 00000001 "Everybody Votes Channel"
 		
@@ -611,9 +646,16 @@ rc24vwiipatch () {
 	fi
 	if [ ${patch[4]} = 1 ]
 	then
-		rc24get NCPatcher/patch/Europe.delta Temp/Files/Patcher/NC/EUR/00000001.delta
-		rc24get NCPatcher/patch/JPN.delta Temp/Files/Patcher/NC/JPN/00000001.delta
-		rc24get NCPatcher/patch/USA.delta Temp/Files/Patcher/NC/USA/00000001.delta
+		if [ ${region} = EUR ]
+		then
+			rc24get NCPatcher/patch/Europe.delta Temp/Files/Patcher/NC/EUR/00000001.delta
+		elif [ ${region} = JPN ]
+		then
+			rc24get NCPatcher/patch/JPN.delta Temp/Files/Patcher/NC/JPN/00000001.delta
+		elif [ ${region} = USA ]
+		then
+			rc24get NCPatcher/patch/USA.delta Temp/Files/Patcher/NC/USA/00000001.delta
+		fi
 		
 		rc24patchtitle NC 00010001484154 1792 00000001 "Nintendo Channel"
 		
