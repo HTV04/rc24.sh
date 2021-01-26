@@ -24,7 +24,11 @@ rc24subtitle () {
 	rc24print "\n\n"
 }
 
+#Get the certificates from the repo
 
+cetkget() {
+	curl --create-dirs -s -o $(dirname ${0})/Files/Patcher/${1}/${2}/cetk $FilesHostedOn/RC24_Patcher/${1}/${2}/cetk
+} >> rc24output.txt 2>&1
 
 # Get file from RiiConnect24 website and save it to output
 rc24get () {
@@ -42,9 +46,9 @@ rc24patchios () {
 	
 	mv -f Temp/Working/Wii/IOS${1}/00000006_patched.app Temp/Working/Wii/IOS${1}/00000006.app
 	
-	./Sharpii wad -p Temp/Working/Wii/IOS${1} "${out_path}/WAD/IOS${1}.wad" -f
+	./Sharpii wad -p Temp/Working/Wii/IOS${1} "${out_path}/WAD/IOS${1}(Wii Only).wad" -f
 	
-	./Sharpii ios "${out_path}/WAD/IOS${1}.wad" -fs -es -np -vp
+	./Sharpii ios "${out_path}/WAD/IOS${1}(Wii Only).wad" -fs -es -np -vp
 } >> rc24output.txt 2>&1
 
 # Patch title
@@ -62,7 +66,7 @@ rc24patchtitle () {
 	
 	mv -f Temp/Working/${1}/${4}_patched.app Temp/Working/${1}/${4}.app
 	
-	./Sharpii wad -p Temp/Working/${1} "${out_path}/WAD/${5} ${region}.wad" -f
+	./Sharpii wad -p Temp/Working/${1} "${out_path}/WAD/${5} (${region}).wad" -f
 } >> rc24output.txt 2>&1
 
 # Patch title with two patch files
@@ -82,7 +86,7 @@ rc24patchtitle2 () {
 	mv -f Temp/Working/${1}/${4}_patched.app Temp/Working/${1}/${4}.app
 	mv -f Temp/Working/${1}/${5}_patched.app Temp/Working/${1}/${5}.app
 	
-	./Sharpii wad -p Temp/Working/${1} "${out_path}/WAD/${6} ${region}.wad" -f
+	./Sharpii wad -p Temp/Working/${1} "${out_path}/WAD/${6} (${region}).wad" -f
 } >> rc24output.txt 2>&1
 
 # Patch title with vWii attributes
@@ -103,11 +107,11 @@ rc24patchtitlevwii () {
 
 # Try to detect SD card by looking for "apps" directory in root (to do: fix for Linux)
 rc24detectsd () {
-	for i in "/Volumes/*/"
+	for i in /Volumes/*/
 	do
-		if [ -d ${i}/apps ]
+		if [[ -d $i/apps ]]
 		then
-			out_path="${i}"
+			out_path="$i"
 		fi
 	done
 }
@@ -118,7 +122,7 @@ rc24changeoutpath () {
     
 	rc24title "Change Output Path"
 	
-	rc24print "Current output path: ${out_path}\n\n"
+	rc24print "Current output path: $out_path\n\n"
     
 	read -p "Type in the new path to store files (e.g. /Volumes/Wii): " out_path
 }
@@ -264,7 +268,7 @@ rc24region () {
 			3)
 				region=USA
 				region_hex=45
-				
+
 				break
 				;;
 		esac
@@ -417,9 +421,11 @@ rc24wiipatch () {
 	patched=(0 0 0 0 0 0)
 	rc24refresh
 	
+	$dwn_sharpii
+	chmod +x Sharpii
 	mkdir -p "${out_path}/WAD"
 	mkdir -p "${out_path}/apps"
-	
+
 	if [ ${patch[0]} = 1 ]
 	then
 		rc24get IOSPatcher/00000006-31.delta Temp/Files/Patcher/Wii/IOS31/00000006.delta
@@ -433,12 +439,19 @@ rc24wiipatch () {
 	fi
 	if [ ${patch[1]} = 1 ]
 	then
-		rc24get NewsChannelPatcher/URL_Patches/Europe/00000001_Forecast.delta Temp/Files/Patcher/Wii/FC/EUR/00000001.delta
-		rc24get NewsChannelPatcher/URL_Patches/Japan/00000001_Forecast.delta Temp/Files/Patcher/Wii/FC/JPN/00000001.delta
-		rc24get NewsChannelPatcher/URL_Patches/USA/00000001_Forecast.delta Temp/Files/Patcher/Wii/FC/USA/00000001.delta
-		rc24get NewsChannelPatcher/URL_Patches/Europe/00000001_News.delta Temp/Files/Patcher/Wii/NC/EUR/00000001.delta
-		rc24get NewsChannelPatcher/URL_Patches/Japan/00000001_News.delta Temp/Files/Patcher/Wii/NC/JPN/00000001.delta
-		rc24get NewsChannelPatcher/URL_Patches/USA/00000001_News.delta Temp/Files/Patcher/Wii/NC/USA/00000001.delta
+		if [ ${region} = EUR ]
+		then
+			rc24get NewsChannelPatcher/URL_Patches/Europe/00000001_Forecast.delta Temp/Files/Patcher/Wii/FC/${region}/00000001.delta
+			rc24get NewsChannelPatcher/URL_Patches/Europe/00000001_News.delta Temp/Files/Patcher/Wii/NC/${region}/00000001.delta
+		elif [ ${region} = JPN ]
+		then
+			rc24get NewsChannelPatcher/URL_Patches/Japan/00000001_Forecast.delta Temp/Files/Patcher/Wii/FC/${region}/00000001.delta
+			rc24get NewsChannelPatcher/URL_Patches/Japan/00000001_News.delta Temp/Files/Patcher/Wii/NC/${region}/00000001.delta
+		elif [ ${region} = USA ]
+		then
+			rc24get NewsChannelPatcher/URL_Patches/USA/00000001_Forecast.delta Temp/Files/Patcher/Wii/FC/${region}/00000001.delta
+			rc24get NewsChannelPatcher/URL_Patches/USA/00000001_News.delta Temp/Files/Patcher/Wii/NC/${region}/00000001.delta
+		fi
 		
 		rc24patchtitle Wii/FC 00010002484146 7 00000001 "Forecast Channel"
 		rc24patchtitle Wii/NC 00010002484147 7 00000001 "News Channel"
@@ -450,6 +463,7 @@ rc24wiipatch () {
 	then
 		if [ ${region} = EUR ]
 		then
+			cetkget CMOC EUR
 			rc24get CMOCPatcher/patch/00000001_Europe.delta Temp/Files/Patcher/CMOC/EUR/00000001.delta
 			rc24get CMOCPatcher/patch/00000004_Europe.delta Temp/Files/Patcher/CMOC/EUR/00000004.delta
 		elif [ ${region} = JPN ]
@@ -458,8 +472,9 @@ rc24wiipatch () {
 			rc24get CMOCPatcher/patch/00000004_Japan.delta Temp/Files/Patcher/CMOC/JPN/00000004.delta
 		elif [ ${region} = USA ]
 		then
+			cetkget CMOC USA
 			rc24get CMOCPatcher/patch/00000001_USA.delta Temp/Files/Patcher/CMOC/USA/00000001.delta
-			CMOCPatcher/patch/00000004_USA.delta Temp/Files/Patcher/CMOC/USA/00000004.delta
+			rc24get CMOCPatcher/patch/00000004_USA.delta Temp/Files/Patcher/CMOC/USA/00000004.delta
 		fi
 		
 		if [ ${region} = EUR ]
@@ -476,12 +491,15 @@ rc24wiipatch () {
 	then
 		if [ ${region} = EUR ]
 		then
+			cetkget EVC EUR
 			rc24get EVCPatcher/patch/Europe.delta Temp/Files/Patcher/EVC/EUR/00000001.delta
 		elif [ ${region} = JPN ]
 		then
 			rc24get EVCPatcher/patch/JPN.delta Temp/Files/Patcher/EVC/JPN/00000001.delta
 		elif [ ${region} = USA ]
 		then
+			cetkget EVC USA
+			curl --create-dirs -s -o $(dirname ${0})/Files/Patcher/EVC/$region/cetk $FilesHostedOn/RC24_Patcher/EVC/${region}/cetk
 			rc24get EVCPatcher/patch/USA.delta Temp/Files/Patcher/EVC/USA/00000001.delta
 		fi
 		
@@ -492,14 +510,18 @@ rc24wiipatch () {
 	fi
 	if [ ${patch[4]} = 1 ]
 	then
+		curl --create-dirs -s -o $(dirname ${0})/Files/Patcher/NC/$region/cetk $FilesHostedOn/RC24_Patcher/NC/${region}/cetk
+		
 		if [ ${region} = EUR ]
 		then
+			cetkget NC EUR
 			rc24get NCPatcher/patch/Europe.delta Temp/Files/Patcher/NC/EUR/00000001.delta
 		elif [ ${region} = JPN ]
 		then
 			rc24get NCPatcher/patch/JPN.delta Temp/Files/Patcher/NC/JPN/00000001.delta
 		elif [ ${region} = USA ]
 		then
+			cetkget NC USA
 			rc24get NCPatcher/patch/USA.delta Temp/Files/Patcher/NC/USA/00000001.delta
 		fi
 		
@@ -509,7 +531,7 @@ rc24wiipatch () {
 		rc24refresh
 	fi
 	
-	if [ ${rc24_apps} = 1 ]
+	if [ ${apps} = 1 ]
 	then
 		rc24get apps/Mail-Patcher/boot.dol "${out_path}/apps/Mail-Patcher/boot.dol"
 		rc24get apps/Mail-Patcher/icon.png "${out_path}/apps/Mail-Patcher/icon.png"
@@ -518,6 +540,8 @@ rc24wiipatch () {
 		rc24get apps/WiiModLite/icon.png "${out_path}/apps/WiiModLite/icon.png"
 		rc24get apps/WiiModLite/meta.xml "${out_path}/apps/WiiModLite/meta.xml"
 	fi
+
+	rm -rf Files
 }
 
 
@@ -579,20 +603,22 @@ rc24vwiipatch () {
 	patched=(0 0 0 0 0 0)
 	rc24refresh
 	
+	$dwn_sharpii
+	chmod +x Sharpii
 	mkdir -p "${out_path}/WAD"
 	mkdir -p "${out_path}/apps"
 	
 	if [ ${patch[0]} = 1 ]
 	then
-		rc24get IOSPatcher/IOS31_vwii.wad "${out_path}/WAD/vIOS31.wad"
+		rc24get IOSPatcher/IOS31_vwii.wad "${out_path}/WAD/IOS31_vWii_Only.wad"
 		
 		patched[0]=1
 		rc24refresh
 	fi
 	if [ ${patch[1]} = 1 ]
 	then
-		rc24get NewsChannelPatcher/00000001.delta Temp/Files/Patcher/vWii/FC/00000001.delta
-		rc24get URL_Patches_WiiU/00000001_Forecast_All.delta Temp/Files/Patcher/vWii/NC/00000001.delta
+		rc24get NewsChannelPatcher/00000001.delta Temp/Files/Patcher/vWii/NC/00000001.delta
+		rc24get NewsChannelPatcher/URL_Patches_WiiU/00000001_Forecast_All.delta Temp/Files/Patcher/vWii/FC/00000001.delta
 		
 		rc24patchtitlevwii vWii/FC 00010002484146 7 00000001 "Forecast Channel"
 		rc24patchtitlevwii vWii/NC 00010002484147 7 00000001 "News Channel"
@@ -604,6 +630,7 @@ rc24vwiipatch () {
 	then
 		if [ ${region} = EUR ]
 		then
+			cetkget CMOC EUR
 			rc24get CMOCPatcher/patch/00000001_Europe.delta Temp/Files/Patcher/CMOC/EUR/00000001.delta
 			rc24get CMOCPatcher/patch/00000004_Europe.delta Temp/Files/Patcher/CMOC/EUR/00000004.delta
 		elif [ ${region} = JPN ]
@@ -612,8 +639,9 @@ rc24vwiipatch () {
 			rc24get CMOCPatcher/patch/00000004_Japan.delta Temp/Files/Patcher/CMOC/JPN/00000004.delta
 		elif [ ${region} = USA ]
 		then
+			cetkget CMOC USA
 			rc24get CMOCPatcher/patch/00000001_USA.delta Temp/Files/Patcher/CMOC/USA/00000001.delta
-			CMOCPatcher/patch/00000004_USA.delta Temp/Files/Patcher/CMOC/USA/00000004.delta
+			rc24get CMOCPatcher/patch/00000004_USA.delta Temp/Files/Patcher/CMOC/USA/00000004.delta
 		fi
 		
 		if [ ${region} = EUR ]
@@ -628,17 +656,21 @@ rc24vwiipatch () {
 	fi
 	if [ ${patch[3]} = 1 ]
 	then
+		curl --create-dirs -s -o $(dirname ${0})/Files/Patcher/${1}/$region/cetk $FilesHostedOn/RC24_Patcher/${1}/${region}/cetk
+		
 		if [ ${region} = EUR ]
 		then
+			cetkget EVC EUR
 			rc24get EVCPatcher/patch/Europe.delta Temp/Files/Patcher/EVC/EUR/00000001.delta
 		elif [ ${region} = JPN ]
 		then
 			rc24get EVCPatcher/patch/JPN.delta Temp/Files/Patcher/EVC/JPN/00000001.delta
 		elif [ ${region} = USA ]
 		then
+			cetkget EVC USA
 			rc24get EVCPatcher/patch/USA.delta Temp/Files/Patcher/EVC/USA/00000001.delta
 		fi
-		
+	
 		rc24patchtitle EVC 0001000148414a 512 00000001 "Everybody Votes Channel"
 		
 		patched[3]=1
@@ -646,17 +678,21 @@ rc24vwiipatch () {
 	fi
 	if [ ${patch[4]} = 1 ]
 	then
+		curl --create-dirs -s -o $(dirname ${0})/Files/Patcher/${1}/$region/cetk $FilesHostedOn/RC24_Patcher/${1}/${region}/cetk
+		
 		if [ ${region} = EUR ]
 		then
+			cetkget NC EUR
 			rc24get NCPatcher/patch/Europe.delta Temp/Files/Patcher/NC/EUR/00000001.delta
 		elif [ ${region} = JPN ]
 		then
 			rc24get NCPatcher/patch/JPN.delta Temp/Files/Patcher/NC/JPN/00000001.delta
 		elif [ ${region} = USA ]
 		then
+			cetkget NC USA
 			rc24get NCPatcher/patch/USA.delta Temp/Files/Patcher/NC/USA/00000001.delta
 		fi
-		
+	
 		rc24patchtitle NC 00010001484154 1792 00000001 "Nintendo Channel"
 		
 		patched[4]=1
@@ -673,6 +709,8 @@ rc24vwiipatch () {
 		rc24get apps/WiiModLite/icon.png "${out_path}/apps/WiiModLite/icon.png"
 		rc24get apps/WiiModLite/meta.xml "${out_path}/apps/WiiModLite/meta.xml"
 	fi
+
+	rm -rf Files
 }
 
 
@@ -684,14 +722,10 @@ cd $(dirname ${0})
 
 rm -rf Temp
 
-chmod +x Sharpii
-
 beta=1
 ver="v1.0 beta 1"
 
 rc24_facts=("Did you know that the Wii was the best selling game-console of 2006?" "RiiConnect24 originally started out as \"CustomConnect24!\"" "Did you the RiiConnect24 logo was made by NeoRame, the same person who made the Wiimmfi logo?" "The Wii was codenamed \"Revolution\" during its development stage." "Did you know the letters in the Wii model number \"RVL\" stands for the Wii's codename, \"Revolution\"?" "The music used in many of the Wii's channels (including the Wii Shop, Mii, Check Mii Out, and Forecast Channels) was composed by Kazumi Totaka." "The Internet Channel once costed 500 Wii Points, but was later made freeware." "It's possible to use candles as a Wii Sensor Bar." "The blinking blue light that indicates a system message has been received is actually synced to the bird call of the Japanese bush warbler." "Wii Sports is the most sold game on the Wii. It sold 82.85 million copies." "Did you know that most of the scripts used to make RiiConnect24 work are written in Python?" "Thanks to Spotlight for making RiiConnect24's mail system secure!" "Did you know that RiiConnect24 has a Discord server where you can stay updated about the project status?" "The Everybody Votes Channel was originally an idea about sending quizzes and questions daily to Wii consoles." "The News Channel developers had an idea at some point about making a dad's Mii the news caster in the channel, but it probably didn't make the cut because some articles aren't appropriate for kids." "The Everybody Votes Channel was originally called the \"Questionnaire Channel\", then \"Citizens Vote Channel.\"" "The Forecast Channel has a \"laundry index\" to show how appropriate it is to dry your clothes outside, and a \"pollen count\" in the Japanese version." "During the development of the Forecast Channel, Nintendo of America's department got hit by a thunderstorm, and the developers of the channel in Japan lost contact with them." "The News Channel has an alternate slide show song that plays at night." "During E3 2006, Satoru Iwata said WiiConnect24 uses as much power as a miniature lightbulb while the console is in Standby mode." "The effect used when rapidly zooming in and out of photos on the Photo Channel was implemented into the News Channel to zoom in and out of text." "The help cats in the News Channel and the Photo Channel are brother and sister (the one in the News Channel being male, and the Photo Channel being a younger female)." "The Japanese version of the Forecast Channel does not show the current forecast." "The Forecast Channel, News Channel and the Photo Channel were made by nearly the same team." "The first worldwide Everybody Votes Channel question about if you like dogs or cats more got more than 500,000 votes." "The night song that plays when viewing the local forecast in the Forecast Channel was made before the day song, that was requested to make people not feel sleepy when it was played during the day." "The globe used in the Forecast and News Channels is based on imagery from NASA, and the same globe was used in Mario Kart Wii." "You can press the RESET button while the Wii is in Standby mode to turn off the blue light that glows when you receive a message.")
-
-
 
 # Run checks
 clear
@@ -713,12 +747,6 @@ then
 	exit
 fi
 
-if [ ! -d Files ]
-then
-	rc24print "\"Files\" directory missing! Please ensure that the release ZIP has been extracted correctly.\n\n"
-	exit
-fi
-
 if ! ping -c 1 -q -W 1 google.com >> rc24output.txt 2>&1
 then
 	rc24print "Unable to connect to internet! Please check your internet connection.\n\n"
@@ -732,13 +760,18 @@ then
 	read -n 1 -p "Press any key to continue."
 fi
 
+#System Detection
 
+case $(uname -m),$(uname) in
+	x86_64,Darwin) sys="(macOS)" ;;
+	x86_64,*) sys="(linux-x64)" ;;
+	arm,*) sys="(linux-arm)" ;;
+esac
 
-# Download needed files
+#Download Files
 
-
-
-
+FilesHostedOn=https://raw.githubusercontent.com/SketchMaster2001/SketchRepo/main
+dwn_sharpii="curl -s -o $(dirname ${0})/sharpii $FilesHostedOn/RC24_Patcher/Sharpii/sharpii"$sys""
 
 # SD card setup
 clear
@@ -752,10 +785,10 @@ rc24detectsd
 
 case ${out_path} in
 	Copy-to-SD)
-		rc24print "Looks like an SD Card wasn't found in your system.\n\nPlease choose the \"Change Path\" option to set your SD card or other destination path manually, otherwise you will have to copy them later from the \"Copy-to-SD\" folder, stored in the same directory as rc24.sh.\n\n"
+		rc24print "Looks like an SD Card wasn't found in your system.\n\nPlease choose the \"Change Path\" option to set your SD card or other destination path manually, otherwise you will have to copy them later from the \"Copy-to-SD\" folder, stored in the same directory as rc24.sh.\n\n" 
 		;;
 	*)
-		rc24print "Successfully detected your SD Card: \"${out_path}\"\n\nEverything will be automatically downloaded and installed onto your SD card!\n\n"
+		rc24print "Successfully detected your SD Card: \"${out_path}\"\n\nEverything will be automatically downloaded and installed onto your SD card!\n\n" | fold -s -w "$(tput cols)"
 		;;
 esac
 
@@ -775,7 +808,7 @@ do
 	fi
 	rc24print "\"RiiConnect\" your Wii!\n\n1. Start\n   - Start patching.\n2. Credits\n   - See who made this possible!\n\n3. Exit\n\n"
 	
-	read -p "Choose an option (by typing its number and pressing return): " choice
+	read -p "Choose an $out_path option (by typing its number and pressing return): " choice
 	
 	case ${choice} in
 		1)
@@ -793,3 +826,5 @@ do
 			;;
 	esac
 done
+
+
