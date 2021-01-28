@@ -4,7 +4,7 @@
 # By HTV04 and SketchMaster2001
 
 #Changes Terminal Size
-printf '\033[8;30;150t'
+printf '\033[8;30;80t'
 
 #Dolphin Requirments
 
@@ -179,7 +179,7 @@ rc24credits () {
 	clear
 	
 	rc24title "rc24.sh Credits"
-	rc24print "Credits:\n\n    - HTV04 and SketchMaster2001: rc24.sh developers\n\n    - TheShadowEevee: Sharpii-NetCore (Thank you for compiling a macOS ARM binary for us)\n\n    - person66, and leathl: Original Sharpii, and libWiiSharp developers\n\n    - KcrPL and Larsenv: RiiConnect24 founders, original RiiConnect24 Patcher developers\n\n    - And you!\n\nSource code: https://github.com/HTV04/rc24.sh\nRiiConnect24 website: https://rc24.xyz/\n\nrc24.sh and RiiConnect24 are made by Wii fans, for Wii fans!\n\n"
+	rc24print "Credits:\n\n    - HTV04 and SketchMaster2001: rc24.sh developers\n\n    - TheShadowEevee: Sharpii-NetCore\n\n    - person66, and leathl: Original Sharpii, and libWiiSharp developers\n\n    - KcrPL and Larsenv: RiiConnect24 founders, original RiiConnect24 Patcher developers\n\n    - And you!\n\nSource code: https://github.com/HTV04/rc24.sh\nRiiConnect24 website: https://rc24.xyz/\n\nrc24.sh and RiiConnect24 are made by Wii fans, for Wii fans!\n\n"
 	
 	read -n 1 -p "Press any key to return to the main menu."
 }
