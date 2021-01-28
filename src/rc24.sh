@@ -182,13 +182,13 @@ vffdownloader () {
 	
 	print "Now loading...\n\n"
 	
-	if command -v xdelta3 >> rc24output.txt 2>&1
+	if command -v crontab >> rc24output.txt 2>&1
 	then
 		sketchget VFF-Downloader-for-Dolphin.sh VFF-Downloader-for-Dolphin.sh
 		chmod +x VFF-Downloader-for-Dolphin.sh
 		./VFF-Downloader-for-Dolphin.sh
 	else
-		print "\"xdelta3\" command not found! Please install the \"xdelta3\" package using your package manager.\n\n"
+		print "\"crontab\" command not found! Please install the \"crontab\" package using your package manager.\n\n"
 		
 		read -n 1 -p "Press any key to continue."
 	fi
@@ -199,10 +199,10 @@ vffdownloader () {
 refresh () {
 	clear
 	
-	if [ ${rc24_device}=wii ]
+	if [ ${device} = wii ]
 	then
 		title "Installing RiiConnect24 (Wii)"
-	elif [ ${rc24_device}=vwii ]
+	elif [ ${device} = vwii ]
 	then
 		title "Installing RiiConnect24 (vWii)"
 	fi
@@ -404,9 +404,13 @@ wii () {
 		case ${choice} in
 			1)
 				wiiprepare
+				
+				break
 				;;
 			2)
 				wiideleteprep
+				
+				break
 				;;
 		esac
 	done
@@ -660,7 +664,7 @@ wiideleteinstuct2 () {
 		
 		title "Uninstall Instructions"
 		
-		print "Part 2 - Disconnecting from RiiConnect24\n\n1. Go to Wii Options\n2. Go to Wii Settings\n3. Go to Page 2, then click on Internet\n4. Go to Connection Settings\n5. Select your current connection\n6. Go to Change Settings\n7. Go to Auto-Obtain-DNS (Not IP Address), then select Yes\n8. Select Save and do the connection test\nWhen asking to update, press No to skip it.\n\n"
+		print "Part 2 - Disconnecting from RiiConnect24\n\n1. Go to Wii Options\n2. Go to Wii Settings\n3. Go to Page 2, then click on Internet\n4. Go to Connection Settings\n5. Select your current connection\n6. Go to Change Settings\n7. Go to Auto-Obtain-DNS (not IP Address), then select Yes\n8. Select Save and do the connection test\nWhen asking to update, press No to skip it.\n\n"
 		
 		read -n 1 -p "Press any key to continue."
 		
@@ -713,12 +717,13 @@ vwii () {
 		clear
 		
 		title "Patcher Mode (vWii)"
-		print "1. Install RiiConnect24 on your vWii\n   - The patcher will guide you through process of installing RiiConnect24.\n\n2. Uninstall RiiConnect24 from your vWii\n   - This will help you uninstall RiiConnect24 from your vWii.\n\n"
+		print "1. Install RiiConnect24 on your vWii\n   - The patcher will guide you through process of installing RiiConnect24.\n\n"
 		
 		read -p "Choose an option: " choice
 		case ${choice} in
 			1)
 				vwiiprepare
+				
 				break
 				;;
 		esac
@@ -882,9 +887,7 @@ vwiipatch () {
 # Setup
 clear
 
-source_dir=$(dirname ${0})
-
-cd "${source_dir}"
+cd $(dirname ${0})
 
 rm -rf rc24.sh-Files
 mkdir rc24.sh-Files
@@ -892,6 +895,12 @@ cd rc24.sh-Files
 
 beta=1
 ver="v1.0 beta 1"
+
+rc24_str="rc24.sh ${ver}\nBy HTV04 and SketchMaster2001\n\n"
+
+print "${rc24_str}Now loading...\n\n"
+
+print "${rc24_str}==rc24.sh Patcher Output==\n\n" > rc24output.txt
 
 fun_facts=(
 	"Did you know that the Wii was the best selling game-console of 2006?"
@@ -924,19 +933,22 @@ fun_facts=(
 )
 
 case $(uname -m),$(uname) in
-	x86_64,Darwin) sys="(macOS)"; mount=/Volumes ;;
-	x86_64,*) sys="(linux-x64)"; mount=/mnt ;;
-	*,*) sys="(linux-arm)"; mount-/mnt ;;
+	x86_64,Darwin)
+		sys="(macOS)"
+		mount=/Volumes
+		;;
+	x86_64,*)
+		sys="(linux-x64)"
+		mount=/mnt
+		;;
+	*,*)
+		sys="(linux-arm)"
+		mount=/mnt
+		;;
 esac
 
-# Run checks
-clear
-
-rc24_str="rc24.sh ${ver}\nBy HTV04 and SketchMaster2001\n\n"
-
-print "${rc24_str}Now loading...\n\n"
-
-print "${rc24_str}==rc24.sh Patcher Output==\n\n" > rc24output.txt
+sketchget Sharpii/sharpii${sys} Sharpii
+chmod +x Sharpii
 
 if ! command -v curl >> rc24output.txt 2>&1
 then
@@ -974,14 +986,14 @@ title "Detecting SD Card"
 
 print "Looking for SD card (drive with \"apps\" folder in root)...\n\n"
 
-out_path="${source_dir}/Copy-to-SD"
+out_path=Copy-to-SD
 detectsd
 
 case ${out_path} in
-	"${source_dir}/Copy-to-SD")
-		mkdir "${source_dir}/Copy-to-SD"
+	Copy-to-SD)
+		mkdir Copy-to-SD
 		
-		print "Looks like an SD Card wasn't found in your system.\n\nPlease choose the \"Change Path\" option to set your SD card or other destination path manually, otherwise you will have to copy them later from the \"Copy-to-SD\" folder, stored in the same directory as rc24.sh.\n\n" 
+		print "Looks like an SD Card wasn't found in your system.\n\nPlease choose the \"Change Path\" option to set your SD card or other destination path manually, otherwise you will have to copy them later from the \"Copy-to-SD\" folder stored in the \"rc24.sh-Files\" folder.\n\n" 
 		;;
 	*)
 		print "Successfully detected your SD Card: \"${out_path}\"\n\nEverything will be automatically downloaded and installed onto your SD card!\n\n" | fold -s -w "$(tput cols)"
