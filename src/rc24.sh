@@ -148,16 +148,16 @@ device () {
 		read -p "Choose an option: " choice
 		case ${choice} in
 			1)
-				rc24_device=wii
+				device=wii
 				
-				rc24wii
+				wii
 				
 				break
 				;;
 			2)
-				rc24_device=vwii
+				device=vwii
 				
-				rc24vwiiprepare
+				vwiiprepare
 				
 				break
 				;;
@@ -680,7 +680,7 @@ wiideleteinstuct3 () {
 	
 		read -n 1 -p "Press any key to continue."
 		
-		deletefinish
+		wiideletefinish
 		break
 	done
 }
@@ -992,7 +992,7 @@ do
 	then
 		subtitle "Beta Warning" "This version of rc24.sh is currently in beta. You may experience bugs and encounter issues that would normally not be present in a stable version."
 	fi
-	print "\"RiiConnect\" your Wii!\n\n1. Start\n   - Start patching.\n2. Credits\n   - See who made this possible!\n3.Start VFF Downloader for Dolphin\n4. Exit\n\n"
+	print "\"RiiConnect\" your Wii!\n\n1. Start\n   - Start patching.\n2. Credits\n   - See who made this possible!\n3. Start VFF Downloader for Dolphin\n\n4. Exit\n\n"
 	
 	read -p "Choose an option (by typing its number and pressing return): " choice
 	
