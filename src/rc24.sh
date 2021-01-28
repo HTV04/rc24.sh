@@ -457,6 +457,9 @@ wiipatch () {
 	patched=(0 0 0 0 0 0)
 	refresh
 	
+	sketchget Sharpii/sharpii${sys} Sharpii
+	chmod +x Sharpii
+	
 	mkdir -p "${out_path}/WAD"
 	mkdir -p "${out_path}/apps"
 
@@ -613,6 +616,9 @@ wiidelete () {
 	
 	print "Please wait..."
 
+	sketchget Sharpii/sharpii${sys} Sharpii
+	chmod +x Sharpii
+	
 	mkdir -p "${out_path}/WAD"
 
 	./Sharpii nusd -ios 31 -v 3608 -o "${out_path}/WAD/IOS31.wad" -wad >> rc24output.txt 2>&1
@@ -763,6 +769,9 @@ vwiiprepare () {
 vwiipatch () {
 	patched=(0 0 0 0 0 0)
 	refresh
+	
+	sketchget Sharpii/sharpii${sys} Sharpii
+	chmod +x Sharpii
 	
 	mkdir -p "${out_path}/WAD"
 	mkdir -p "${out_path}/apps"
@@ -919,9 +928,6 @@ case $(uname -m),$(uname) in
 	x86_64,*) sys="(linux-x64)"; mount=/mnt ;;
 	*,*) sys="(linux-arm)"; mount-/mnt ;;
 esac
-
-sketchget Sharpii/sharpii${sys} Sharpii
-chmod +x Sharpii
 
 # Run checks
 clear
