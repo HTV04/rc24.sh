@@ -893,8 +893,8 @@ rm -rf rc24.sh-Files
 mkdir rc24.sh-Files
 cd rc24.sh-Files
 
-beta=1
-ver="v1.0 beta 1"
+ver="v1.0"
+beta=0
 
 rc24_str="rc24.sh ${ver}\nBy HTV04 and SketchMaster2001\n\n"
 
@@ -1014,7 +1014,7 @@ do
 	then
 		subtitle "Beta Warning" "This version of rc24.sh is currently in beta. You may experience bugs and encounter issues that would normally not be present in a stable version."
 	fi
-	print "\"RiiConnect\" your Wii!\n\n1. Start\n   - Start patching.\n2. Credits\n   - See who made this possible!\n3. Start VFF Downloader for Dolphin\n\n4. Exit\n\n"
+	print "\"RiiConnect\" your Wii!\n\n1. Start\n   - Start patching\n2. Credits\n   - See who made this possible!\n\n3. Start VFF Downloader\n    - Assists with downloading VFF files for Dolphin\n\n4. Exit\n    - Exit rc24.sh\n\n"
 	
 	read -p "Choose an option (by typing its number and pressing return): " choice
 	
