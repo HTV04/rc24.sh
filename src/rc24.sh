@@ -199,10 +199,10 @@ vffdownloader () {
 refresh () {
 	clear
 	
-	if [ ${rc24_device} = wii ]
+	if [ ${rc24_device}=wii ]
 	then
 		title "Installing RiiConnect24 (Wii)"
-	elif [ ${rc24_device} = vwii ]
+	elif [ ${rc24_device}=vwii ]
 	then
 		title "Installing RiiConnect24 (vWii)"
 	fi
