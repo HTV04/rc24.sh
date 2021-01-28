@@ -12,18 +12,18 @@ print () {
 
 # Print title
 title () {
-	rc24print "${rc24_str}====${1}"
+	print "${rc24_str}====${1}"
 	printf "=%.0s" $(seq 1 $(($(tput cols) - (${#1} + 4))))
-	rc24print "\n\n"
+	print "\n\n"
 }
 
 # Print subtitle
 subtitle () {
-	rc24print "\055---${1}"
+	print "\055---${1}"
 	printf "\055%.0s" $(seq 1 $(($(tput cols) - (${#1} + 4))))
-	rc24print "\n${2}\n"
+	print "\n${2}\n"
 	printf "\055%.0s" $(seq 1 $(tput cols))
-	rc24print "\n\n"
+	print "\n\n"
 }
 
 
@@ -131,7 +131,7 @@ changeoutpath () {
 	
 	title "Change Output Path"
 	
-	rc24print "Current output path: ${out_path}\n\n"
+	print "Current output path: ${out_path}\n\n"
 	
 	read -p "Type in the new path to store files (i.e. ${mount}/Wii): " out_path
 }
@@ -142,8 +142,8 @@ device () {
 	do
 		clear
 		
-		rc24title "Choose Device"
-		rc24print "Welcome to rc24.sh!\nWith this program, you can patch your Wii or Wii U for use with RiiConnect24.\n\nSo, what device are we patching today?\n\n1. Wii\n2. vWii (Wii U)\n\n"
+		title "Choose Device"
+		print "Welcome to rc24.sh!\nWith this program, you can patch your Wii or Wii U for use with RiiConnect24.\n\nSo, what device are we patching today?\n\n1. Wii\n2. vWii (Wii U)\n\n"
 		
 		read -p "Choose an option: " choice
 		case ${choice} in
@@ -169,8 +169,8 @@ device () {
 credits () {
 	clear
 	
-	rc24title "rc24.sh Credits"
-	rc24print "Credits:\n\n    - HTV04 and SketchMaster2001: rc24.sh developers\n\n    - TheShadowEevee: Sharpii-NetCore\n\n    - person66, and leathl: Original Sharpii, and libWiiSharp developers\n\n    - KcrPL and Larsenv: RiiConnect24 founders, original RiiConnect24 Patcher developers\n\n    - And you!\n\nSource code: https://github.com/HTV04/rc24.sh\nRiiConnect24 website: https://rc24.xyz/\n\nrc24.sh and RiiConnect24 are made by Wii fans, for Wii fans!\n\n"
+	title "rc24.sh Credits"
+	print "Credits:\n\n    - HTV04 and SketchMaster2001: rc24.sh developers\n\n    - TheShadowEevee: Sharpii-NetCore\n\n    - person66, and leathl: Original Sharpii, and libWiiSharp developers\n\n    - KcrPL and Larsenv: RiiConnect24 founders, original RiiConnect24 Patcher developers\n\n    - And you!\n\nSource code: https://github.com/HTV04/rc24.sh\nRiiConnect24 website: https://rc24.xyz/\n\nrc24.sh and RiiConnect24 are made by Wii fans, for Wii fans!\n\n"
 	
 	read -n 1 -p "Press any key to return to the main menu."
 }
@@ -183,6 +183,7 @@ vffdownloader () {
 	print "Now loading...\n\n"
 	
 	if command -v xdelta3 >> rc24output.txt 2>&1
+	then
 		sketchget VFF-Downloader-for-Dolphin.sh VFF-Downloader-for-Dolphin.sh
 		chmod +x VFF-Downloader-for-Dolphin.sh
 		./VFF-Downloader-for-Dolphin.sh
@@ -200,10 +201,10 @@ refresh () {
 	
 	if [ ${rc24_device} = wii ]
 	then
-		rc24title "Installing RiiConnect24 (Wii)"
+		title "Installing RiiConnect24 (Wii)"
 	elif [ ${rc24_device} = vwii ]
 	then
-		rc24title "Installing RiiConnect24 (vWii)"
+		title "Installing RiiConnect24 (vWii)"
 	fi
 	print "Now patching. This may take a few minutes, depending on your internet speed.\n\n"
 	
@@ -425,6 +426,7 @@ wiiprepare () {
 			1)
 				region
 				if [ ${region} != "JPN" ]
+				then
 					patch=(1 1 1 1 1)
 				else
 					patch=(1 1 1 1 0)
@@ -731,6 +733,7 @@ vwiiprepare () {
 			1)
 				region
 				if [ ${region} != "JPN" ]
+				then
 					patch=(1 1 1 1 1)
 				else
 					patch=(1 1 1 1 0)
@@ -874,9 +877,9 @@ source_dir=$(dirname ${0})
 
 cd "${source_dir}"
 
-rm -rf rc24.sh
-mkdir rc24.sh
-cd rc24.sh
+rm -rf rc24.sh-Files
+mkdir rc24.sh-Files
+cd rc24.sh-Files
 
 beta=1
 ver="v1.0 beta 1"
@@ -959,7 +962,7 @@ clear
 
 title "Detecting SD Card"
 
-print "Looking for SD card (drive with \"apps\" folder in root)..."
+print "Looking for SD card (drive with \"apps\" folder in root)...\n\n"
 
 out_path="${source_dir}/Copy-to-SD"
 detectsd
@@ -968,7 +971,7 @@ case ${out_path} in
 	"${source_dir}/Copy-to-SD")
 		mkdir "${source_dir}/Copy-to-SD"
 		
-		rc24print "Looks like an SD Card wasn't found in your system.\n\nPlease choose the \"Change Path\" option to set your SD card or other destination path manually, otherwise you will have to copy them later from the \"Copy-to-SD\" folder, stored in the same directory as rc24.sh.\n\n" 
+		print "Looks like an SD Card wasn't found in your system.\n\nPlease choose the \"Change Path\" option to set your SD card or other destination path manually, otherwise you will have to copy them later from the \"Copy-to-SD\" folder, stored in the same directory as rc24.sh.\n\n" 
 		;;
 	*)
 		print "Successfully detected your SD Card: \"${out_path}\"\n\nEverything will be automatically downloaded and installed onto your SD card!\n\n" | fold -s -w "$(tput cols)"
