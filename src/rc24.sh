@@ -4,7 +4,7 @@
 # By HTV04 and SketchMaster2001
 
 #Changes Terminal Size
-printf '\033[8;30;80t'
+printf '\033[8;30;150t'
 
 #Dolphin Requirments
 
@@ -152,7 +152,7 @@ rc24device () {
 			1)
 				rc24_device=wii
 				
-				rc24wiiprepare
+				rc24wii
 				
 				break
 				;;
@@ -179,7 +179,7 @@ rc24credits () {
 	clear
 	
 	rc24title "rc24.sh Credits"
-	rc24print "Credits:\n\n    - HTV04 and SketchMaster2001: rc24.sh developers\n\n    - TheShadowEevee: Sharpii-NetCore\n\n    - person66, and leathl: Original Sharpii, and libWiiSharp developers\n\n    - KcrPL and Larsenv: RiiConnect24 founders, original RiiConnect24 Patcher developers\n\n    - And you!\n\nSource code: https://github.com/HTV04/rc24.sh\nRiiConnect24 website: https://rc24.xyz/\n\nrc24.sh and RiiConnect24 are made by Wii fans, for Wii fans!\n\n"
+	rc24print "Credits:\n\n    - HTV04 and SketchMaster2001: rc24.sh developers\n\n    - TheShadowEevee: Sharpii-NetCore (Thank you for compiling a macOS ARM binary for us)\n\n    - person66, and leathl: Original Sharpii, and libWiiSharp developers\n\n    - KcrPL and Larsenv: RiiConnect24 founders, original RiiConnect24 Patcher developers\n\n    - And you!\n\nSource code: https://github.com/HTV04/rc24.sh\nRiiConnect24 website: https://rc24.xyz/\n\nrc24.sh and RiiConnect24 are made by Wii fans, for Wii fans!\n\n"
 	
 	read -n 1 -p "Press any key to return to the main menu."
 }
@@ -391,10 +391,8 @@ rc24wii () {
 		
 		read -p "Choose an option: " choice
 		case ${choice} in
-			1)
-				rc24wiiprepare
-				break
-				;;
+			1) rc24wiiprepare ;;
+			2) rc24wiideleteprep ;;
 		esac
 	done
 }
@@ -430,6 +428,27 @@ rc24wiiprepare () {
 				;;
 		esac
 	done
+}
+
+rc24wiideleteprep() {
+	clear
+	rc24title "Uninstall RiiConnect24 (Wii)"
+	rc24subtitle "WARNING" "If you are troubleshooting, uninstalling RiiConnect24 probably won't help fix your problem. Please contact the RiiConnect24 Developers at support@riiconnect24.net or join the RiiConnect24 Discord server."
+	rc24print "This part of the patcher will help you uninstall RiiConnect24 from your Wii\nBy completing these steps you will lose access to:\n- News Channel\n- Forecast Channel\n- Wii Mail\n\nIf you have any other channels installed on your Wii, you will have to uninstall them manually.\nDo you want to procced with the guide?\n1. Yes\n2. No, go back\n\n"
+	read -p "Choose: " choice
+
+	case $choice in
+		1) clear 
+		   rc24title 
+		   printf "Would you like to include a tutorial with how to delete you mwc24msg.cfg file?\n(This is a mail configuration file.)\n\n1. Yes\n2. No\n\n" 
+		   read -p "Choose: " choose
+		   ;;
+		2) rc24wii ;;
+	esac
+
+	case $choose in
+		1|2) rc24wiidelete
+	esac
 }
 
 # Wii patching process
@@ -560,7 +579,80 @@ rc24wiipatch () {
 	rm -rf Files
 }
 
+rc24wiidelete() {
+	clear
+	rc24title "Downloading Uninstaller files"
+	rc24print "[*] Downloading Stock IOS 31, 80 and apps"
 
+	mkdir -p "${out_path}/WAD"
+
+	./Sharpii nusd -ios 31 -v 3608 -o "${out_path}/WAD/IOS31.wad" -wad -q
+	./Sharpii nusd -ios 80 -v 6944 -o "${out_path}/WAD/IOS80.wad" -wad -q
+	
+	
+	rc24get apps/WiiXplorer/boot.dol "${out_path}/apps/WiiXplorer/boot.dol"
+	rc24get apps/WiiXplorer/icon.png "${out_path}/apps/WiiXplorer/icon.png"
+	rc24get apps/WiiXplorer/meta.xml "${out_path}/apps/WiiXplorer/meta.xml"
+	rc24get apps/WiiModLite/boot.dol "${out_path}/apps/WiiModLite/boot.dol"
+	rc24get apps/WiiModLite/icon.png "${out_path}/apps/WiiModLite/icon.png"
+	rc24get apps/WiiModLite/meta.xml "${out_path}/apps/WiiModLite/meta.xml"
+
+	rc24deleteinstuct1
+}
+
+rc24deleteinstuct1() {
+	clear
+	rc24title "Instructions"
+	rc24print "Part 1 - Reinstalling stock IOS 31 and IOS 80\n\n1. Please open the Homebrew Channel and start Wii Mod Lite\n2. Using the D-Pad on your Wii Remote, navigate to WAD Manager and then navigate to the WAD Folder\n3. When IOS31.wad is highlighted, press +. Do the same for IOS 80 then press the A button\n4. When you are done, press the HOME Button to go back to Homebrew Channel.\n\n1. Next Page\n\n"
+	read -p "Choose: " choice
+
+	case $choice in
+		1) rc24deleteinstuct2 ;;
+		*) printf "Invalid selection.\n"; sleep 2; rc24deleteinstuct1 ;; 
+	esac
+}
+
+rc24deleteinstuct2() {
+	clear
+	rc24title "Instructions"
+	rc24print "Part 2 - Disconnecting from RiiConnect24\n\n1. Go to Wii Options\n2. Go to Wii Settings\n3. Go to Page 2, then click on Internet\n4. Go to Connection Settings\n5. Select your current connection\n6. Go to Change Settings\n7. Go to Auto-Obtain-DNS (Not IP Address), then select Yes\n8. Select Save and do the connection test\nWhen asking to update, press No to skip it\n\n1. Next Page\n2. Back\n\n"
+	read -p "Choose: " choice
+
+	case $choice in
+		1) if [[ $choose == 1 ]]
+		   	then
+		   		rc24deleteinstuct3
+			else
+				rc24deletefinish
+			fi ;;
+		2) rc24deleteinstuct1 ;;
+		*) printf "Invalid selection.\n"; sleep 2; rc24deleteinstuct2 ;; 
+	esac
+}
+
+rc24deleteinstuct3() {
+	clear
+	rc24title "Instructions"
+	rc24print "Part 3 - Restoring the nwc24msg.cfg to it's factory default\n\n1. Launch WiiXplorer from the Homebrew Channel\n2. In WiiXplorer, press Start - Settings - Boot Settings. Turn NAND Write Access on.\n3. Change your device to NAND (the bar on the top)\n4. Go to shared2 - wc24\n5. Hover your cursor over the nwc24msg.cfg then press + on your Wii Remote and delete it.\n\n1. Next Page\n2. Back\n\n"
+	read -p "Choose: " choice
+
+	case $choice in
+		1) rc24deletefinish ;;
+		2) rc24deleteinstuct2 ;;
+		*) printf "Invalid selection.\n"; sleep 2; rc24deleteinstuct3 ;; 
+	esac 
+}
+
+rc24deletefinish() {
+	clear
+	rc24title "Finished"
+	rc24print "That is it! RiiConnect24 should now be removed from your Wii!\n\nWe hope you have enjoyed your time with us, and that you will come back soon :)\n\n"
+	read -n 1 -p "Press any key to exit" choice
+
+	case $choice in
+		*) exit
+	esac
+}
 
 # Choose vWii patcher mode (currently unused)
 rc24vwii () {
