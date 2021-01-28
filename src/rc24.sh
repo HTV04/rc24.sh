@@ -914,10 +914,14 @@ fun_facts=(
 	"You can press the RESET button while the Wii is in Standby mode to turn off the blue light that glows when you receive a message."
 )
 
+case $(uname -m),$(uname) in
+	x86_64,Darwin) sys="(macOS)"; mount=/Volumes ;;
+	x86_64,*) sys="(linux-x64)"; mount=/mnt ;;
+	*,*) sys="(linux-arm)"; mount-/mnt ;;
+esac
+
 sketchget Sharpii/sharpii${sys} Sharpii
 chmod +x Sharpii
-
-
 
 # Run checks
 clear
