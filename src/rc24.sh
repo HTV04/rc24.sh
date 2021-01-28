@@ -1278,15 +1278,14 @@ fi
 #System Detection
 
 case $(uname -m),$(uname) in
-	x86_64,Darwin) sys="(macOS)"; mount=/Volumes; path='~/Library/Application\ Support/Dolphin/Wii' ;;
-	x86_64,*) sys="(linux-x64)"; mount=/mnt; '~/.local/share/dolphin-emu/Wii' ;;
-	arm,*) sys="(linux-arm)"; mount=/mnt; '~/.local/share/dolphin-emu/Wii' ;;
+	x86_64,Darwin) sys="(macOS)"; mount=/Volumes; path='~/Library/Application\ Support/Dolphin/Wii'; dwn_sharpii="curl -s -o $(dirname ${0})/sharpii $FilesHostedOn/RC24_Patcher/Sharpii/sharpii(macOS)"
+	x86_64,*) sys="(linux-x64)"; mount=/mnt; '~/.local/share/dolphin-emu/Wii'; dwn_sharpii="curl -s -o $(dirname ${0})/sharpii https://media.githubusercontent.com/media/SketchMaster2001/SketchRepo/main/RC24_Patcher/Sharpii/sharpii(linux-x64)" ;;
+	arm,*) sys="(linux-arm)"; mount=/mnt; '~/.local/share/dolphin-emu/Wii'; dwn_sharpii="curl -s -o $(dirname ${0})/sharpii https://media.githubusercontent.com/media/SketchMaster2001/SketchRepo/main/RC24_Patcher/Sharpii/sharpii(linux-arm)" ;;
 esac
 
 #Download Files
 
 FilesHostedOn=https://raw.githubusercontent.com/SketchMaster2001/SketchRepo/main
-dwn_sharpii="curl -s -o $(dirname ${0})/sharpii $FilesHostedOn/RC24_Patcher/Sharpii/sharpii"$sys""
 
 # SD card setup
 clear
