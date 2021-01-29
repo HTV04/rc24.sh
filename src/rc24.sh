@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# rc24.sh v1.0 beta 1
+# rc24.sh v1.0
 # By HTV04 and SketchMaster2001
 
 
