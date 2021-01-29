@@ -14,7 +14,7 @@ rc24.sh is heavily inspired by the [original RiiConnect24 Patcher](https://githu
 Finally, [KuraiKokoro](https://github.com/KuraiKokoro) is working on a [Python-based RiiConnect24 patcher](https://github.com/KuraiKokoro/RiiConnect24-PyPatcher) with the goal of working on several operating systems, including Windows, macOS, Linux, and even Android!
 
 ## Credits
-* HTV04: rc24.sh developer
+* HTV04 and SketchMaster2001: rc24.sh developer
 * TheShadowEevee, person66, and leathl: Sharpii-NetCore, Sharpii, and libWiiSharp developers
 * KcrPL and Larsenv: RiiConnect24 founders, original RiiConnect24 Patcher developers
 
