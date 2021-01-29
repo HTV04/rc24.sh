@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# rc24.sh v1.0
+# rc24.sh (aka RiiConnect24Patcher.sh) v1.1 beta 1
 # By HTV04 and SketchMaster2001
 
 
@@ -170,7 +170,7 @@ credits () {
 	clear
 	
 	title "rc24.sh Credits"
-	print "Credits:\n\n    - HTV04 and SketchMaster2001: rc24.sh developers\n\n    - TheShadowEevee: Sharpii-NetCore\n\n    - person66, and leathl: Original Sharpii, and libWiiSharp developers\n\n    - KcrPL and Larsenv: RiiConnect24 founders, original RiiConnect24 Patcher developers\n\n    - And you!\n\nSource code: https://github.com/HTV04/rc24.sh\nRiiConnect24 website: https://rc24.xyz/\n\nrc24.sh and RiiConnect24 are made by Wii fans, for Wii fans!\n\n"
+	print "Credits:\n    - HTV04 and SketchMaster2001: rc24.sh developers\n    - TheShadowEevee: Sharpii-NetCore\n    - person66, and leathl: Original Sharpii and libWiiSharp developers\n    - KcrPL and Larsenv: Original RiiConnect24 Patcher developers\n    - And you!\n\nSource code: https://github.com/HTV04/rc24.sh\nRiiConnect24 Patcher repository: https://github.com/RiiConnect24/RiiConnect24-Patcher\n\nRiiConnect24 website: https://rc24.xyz/\n\nrc24.sh and RiiConnect24 are made by Wii fans, for Wii fans!\n\n"
 	
 	read -n 1 -p "Press any key to return to the main menu."
 }
@@ -893,8 +893,8 @@ rm -rf rc24.sh-Files
 mkdir rc24.sh-Files
 cd rc24.sh-Files
 
-ver="v1.0"
-beta=0
+ver="v1.1 beta 1"
+beta=1
 
 rc24_str="rc24.sh ${ver}\nBy HTV04 and SketchMaster2001\n\n"
 
