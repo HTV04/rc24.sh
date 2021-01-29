@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# rc24.sh (aka RiiConnect24Patcher.sh) v1.1 beta 1
+# rc24.sh (aka RiiConnect24Patcher.sh) v1.1
 # By HTV04 and SketchMaster2001
 
 
@@ -9,6 +9,8 @@
 print () {
 	printf "${1}" | fold -s -w $(tput cols)
 }
+
+
 
 # Print title
 title () {
@@ -37,6 +39,8 @@ sketchget() {
 rc24get () {
 	curl --create-dirs -f -k -L -o ${2} -S -s https://patcher.rc24.xyz/update/RiiConnect24-Patcher/v1/${1}
 } >> rc24output.txt 2>&1
+
+
 
 # Get cetk file from SketchMaster2001's website
 sketchgetcetk() {
@@ -907,8 +911,8 @@ rm -rf rc24.sh-Files
 mkdir rc24.sh-Files
 cd rc24.sh-Files
 
-ver="v1.1 beta 1"
-beta=1
+ver=v1.1
+beta=0
 
 rc24_str="rc24.sh ${ver}\nBy HTV04 and SketchMaster2001\n\n"
 
