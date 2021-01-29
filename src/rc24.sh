@@ -55,9 +55,9 @@ patchios () {
 	
 	mv -f Temp/Working/Wii/IOS${1}/00000006_patched.app Temp/Working/Wii/IOS${1}/00000006.app
 	
-	./Sharpii wad -p Temp/Working/Wii/IOS${1} "${out_path}/WAD/IOS${1}(Wii Only).wad" -f
+	./Sharpii wad -p Temp/Working/Wii/IOS${1} "${out_path}/WAD/IOS${1}.wad" -f
 	
-	./Sharpii ios "${out_path}/WAD/IOS${1}(Wii Only).wad" -fs -es -np -vp
+	./Sharpii ios "${out_path}/WAD/IOS${1}.wad" -fs -es -np -vp
 } >> rc24output.txt 2>&1
 
 # Patch title
