@@ -346,9 +346,19 @@ custom () {
 		fi
 		if [ ${patch[4]} = 1 ]
 		then
-			print "5. [X] Nintendo Channel\n\n"
+			if [ ${region} != JPN ]
+			then
+				print "5. [X] Nintendo Channel\n\n"
+			else
+				print "5. [X] Nintendo Channel (Not working!)\n\n"
+			fi
 		else
-			print "5. [ ] Nintendo Channel\n\n"
+			if [ ${region} != JPN ]
+			then
+				print "5. [ ] Nintendo Channel\n\n"
+			else
+				print "5. [ ] Nintendo Channel (Not working!)\n\n"
+			fi
 		fi
 		
 		if [ ${apps} = 1 ]
@@ -588,28 +598,31 @@ wiipatch () {
 
 # Wii uninstall preparation
 wiideleteprep() {
-	clear
-	
-	title "Uninstall RiiConnect24 (Wii)"
-	subtitle "Warning" "If you are troubleshooting, uninstalling RiiConnect24 probably won't help fix your problem. Please contact the RiiConnect24 developers at support@riiconnect24.net or join the RiiConnect24 Discord server."
-	print "This part of the patcher will help you uninstall RiiConnect24 from your Wii\nBy completing these steps you will lose access to:\n- News Channel\n- Forecast Channel\n- Wii Mail\n\nIf you have any other channels installed on your Wii, you will have to uninstall them manually.\nDo you want to procced with the guide?\n1. Yes\n2. No, go back\n\n"
-	
-	read -p "Choose: " choice
-	case ${choice} in
-		1)
-			clear 
-			
-			title 
-			print "Would you like to include a tutorial with how to delete yoru mwc24msg.cfg file?\n(This is a mail configuration file.)\n\n1. Yes\n2. No\n\n" 
-			
-			read -p "Choose: " choice2
-			;;
-		2)
-			wii
-			;;
+	while true
+	do
+		clear
+		
+		title "Uninstall RiiConnect24 (Wii)"
+		subtitle "Warning" "If you are troubleshooting, uninstalling RiiConnect24 probably won't help fix your problem. Please contact the RiiConnect24 developers at support@riiconnect24.net or join the RiiConnect24 Discord server."
+		
+		print "This part of the patcher will help you uninstall RiiConnect24 from your Wii\nBy completing these steps you will lose access to:\n- News Channel\n- Forecast Channel\n- Wii Mail\n\nIf you have any other channels installed on your Wii, you will have to uninstall them manually.\nDo you want to procced with the guide?\n1. Yes\n2. No, go back\n\n"
+		
+		read -p "Choose: " choice
+		case ${choice} in
+			1)
+				clear 
+				
+				title 
+				print "Would you like to include a tutorial with how to delete yoru mwc24msg.cfg file?\n(This is a mail configuration file.)\n\n1. Yes\n2. No\n\n" 
+				
+				read -p "Choose: " choice_2
+				
+				wiidelete
+				;;
+			2)
+				break
+				;;
 	esac
-	
-	wiidelete
 }
 
 # More Wii uninstall preparation
@@ -668,7 +681,7 @@ wiideleteinstuct2 () {
 		
 		read -n 1 -p "Press any key to continue."
 		
-		if [ ${choice2} == 1 ]
+		if [ ${choice_2} == 1 ]
 		then
 			wiideleteinstuct3
 		else
@@ -701,7 +714,7 @@ wiideletefinish() {
 	
 	title "Uninstall Finished"
 	
-	print "That is it! RiiConnect24 should now be removed from your Wii!\n\nWe hope you have enjoyed your time with us, and that you will come back soon :)\n\n"
+	print "That's it! RiiConnect24 should now be removed from your Wii!\n\nWe hope you have enjoyed your time with us, and that you will come back soon :)\n\n"
 	
 	read -n 1 -p "Press any key to continue."
 
@@ -993,10 +1006,10 @@ case ${out_path} in
 	Copy-to-SD)
 		mkdir Copy-to-SD
 		
-		print "Looks like an SD Card wasn't found in your system.\n\nPlease choose the \"Change Path\" option to set your SD card or other destination path manually, otherwise you will have to copy them later from the \"Copy-to-SD\" folder stored in the \"rc24.sh-Files\" folder.\n\n" 
+		print "Looks like an SD card wasn't found in your system.\n\nPlease choose the \"Change Path\" option to set your SD card or other destination path manually, otherwise you will have to copy them later from the \"Copy-to-SD\" folder stored in the \"rc24.sh-Files\" folder.\n\n" 
 		;;
 	*)
-		print "Successfully detected your SD Card: \"${out_path}\"\n\nEverything will be automatically downloaded and installed onto your SD card!\n\n" | fold -s -w "$(tput cols)"
+		print "Successfully detected your SD card: \"${out_path}\"\n\nEverything will be automatically downloaded and installed onto your SD card!\n\n" | fold -s -w "$(tput cols)"
 		;;
 esac
 
