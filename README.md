@@ -3,9 +3,7 @@
 
 **Current release: [v1.0](https://github.com/HTV04/rc24.sh/releases/tag/v1.0)**
 
-rc24.sh is a patcher for RiiConnect24 services, written in Bash. Currently, it is supported on Linux, and will soon support macOS.
-
-*rc24.sh is not developed by the RiiConnect24 team, and thus they are not responsible for any issues that may occur while using this tool.*
+rc24.sh is a patcher for RiiConnect24 services, written in Bash. Currently, it is compatible with macOS and Linux.
 
 Please check out the [RiiConnect24 website](https://rc24.xyz/) if you want to learn more about RiiConnect24.
 
@@ -21,16 +19,15 @@ Finally, [KuraiKokoro](https://github.com/KuraiKokoro) is working on a [Python-b
 * KcrPL and Larsenv: RiiConnect24 founders, original RiiConnect24 Patcher developers
 
 ## Setup
-### Linux
 * Ensure your device is connected to the internet, as it is needed for rc24.sh to download files.
-* If rc24.sh has been downloaded and extracted before, please delete the files of the old version before extracting a new version.
-* Extract the release ZIP for your device (usually amd64) found [here](https://github.com/HTV04/rc24.sh/releases/latest).
+* Insert your Wii's SD card into your computer, if possible.
+
+* Download the latest version of rc24.sh [here](https://github.com/HTV04/rc24.sh/releases/latest).
 * Open a terminal.
   * Install the `curl` and `xdelta3` packages using your default package manager. Please consult your distro's information on installing packages if you are having trouble doing this.
-  * Navigate to the folder the files have been extracted to (using `ls` to show the files in the current folder and `cd [folder name here]` to enter a folder).
-* Type `chmod +x Sharpii rc24.sh` into the terminal and press return.
+  * Navigate to the folder rc24.sh has been downloaded to (using `ls` to show the files in the current folder and `cd [folder name here]` to enter a folder).
+* Type `chmod +x rc24.sh` into the terminal and press return.
 * Type `./rc24.sh` into the terminal and press return. rc24.sh will now start.
-* After running rc24.sh, insert the SD card you use for your Wii or Wii U and copy all of the files *in* the `Copy-to-SD` folder (located in the same folder as the rc24.sh files you extracted) to it.
 
 ## Roadmap
 * Uninstallation script (and restore unused menus).
