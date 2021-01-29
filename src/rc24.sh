@@ -28,9 +28,9 @@ subtitle () {
 
 
 
-# Download files from SketchRepo
+# Get file from SketchMaster2001's website
 sketchget() {
-	curl --create-dirs -f -k -L -o ${2} -S -s https://raw.githubusercontent.com/SketchMaster2001/SketchRepo/main/RC24_Patcher/${1}
+	curl --create-dirs -f -k -L -o ${2} -S -s https://sketchmaster2001.github.io/RC24_Patcher/${1}
 } >> rc24output.txt 2>&1
 
 # Get file from RiiConnect24 website and save it to output
@@ -38,6 +38,7 @@ rc24get () {
 	curl --create-dirs -f -k -L -o ${2} -S -s https://patcher.rc24.xyz/update/RiiConnect24-Patcher/v1/${1}
 } >> rc24output.txt 2>&1
 
+# Get cetk file from SketchMaster2001's website
 sketchgetcetk() {
 	sketchget ${1}/${2}/cetk Temp/Files/Patcher/${1}/${2}/cetk
 } >> rc24output.txt 2>&1
