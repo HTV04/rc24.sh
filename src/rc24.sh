@@ -1014,7 +1014,7 @@ do
 	then
 		subtitle "Beta Warning" "This version of rc24.sh is currently in beta. You may experience bugs and encounter issues that would normally not be present in a stable version."
 	fi
-	print "\"RiiConnect\" your Wii!\n\n1. Start\n   - Start patching\n2. Credits\n   - See who made this possible!\n\n3. Start VFF Downloader\n    - Assists with downloading VFF files for Dolphin\n\n4. Exit\n    - Exit rc24.sh\n\n"
+	print "\"RiiConnect\" your Wii!\n\n1. Start\n   - Start patching\n2. Credits\n   - See who made this possible!\n\n3. Start VFF Downloader\n   - Assists with downloading VFF files for Dolphin\n\n4. Exit\n   - Exit rc24.sh\n\n"
 	
 	read -p "Choose an option (by typing its number and pressing return): " choice
 	
