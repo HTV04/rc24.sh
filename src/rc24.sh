@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# rc24.sh (aka RiiConnect24Patcher.sh) v1.1
+# rc24.sh (aka RiiConnect24Patcher.sh) v1.1.1
 # By HTV04 and SketchMaster2001
 
 
@@ -627,7 +627,8 @@ wiideleteprep() {
 			2)
 				break
 				;;
-	esac
+		esac
+	done
 }
 
 # More Wii uninstall preparation
@@ -911,7 +912,7 @@ rm -rf rc24.sh-Files
 mkdir rc24.sh-Files
 cd rc24.sh-Files
 
-ver=v1.1
+ver=v1.1.1
 beta=0
 
 rc24_str="rc24.sh ${ver}\nBy HTV04 and SketchMaster2001\n\n"
@@ -979,20 +980,6 @@ then
 	print "\"xdelta3\" command not found! Please install the \"xdelta3\" package using your package manager.\n\n"
 	
 	exit
-fi
-
-if ! ping -c 1 -q -W 1 google.com >> rc24output.txt 2>&1
-then
-	print "Unable to connect to internet! Please check your internet connection.\n\n"
-	
-	exit
-fi
-
-if ! ping -c 1 -q -W 1 nus.cdn.shop.wii.com >> rc24output.txt 2>&1
-then
-	print "Warning: The NUS is either offline, or your device is unable to connect to it. The patcher will continue, but it may not function properly.\n\n"
-	
-	read -n 1 -p "Press any key to continue."
 fi
 
 
