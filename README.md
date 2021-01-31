@@ -1,7 +1,7 @@
 # rc24.sh
 ![rc24.sh Screenshot](/images/rc24.sh_Screenshot.png)
 
-**NOTE: This repository is no longer maintained, as rc24.sh (now *Unix RiiConnect24 Patcher*) is now officially the patcher used for Unix-like devices. Please check out the [RiiConnect24 Patcher respoitory](https://github.com/RiiConnect24/RiiConnect24-Patcher) for updates.**
+**NOTE: This repository is no longer maintained, as rc24.sh is now officially the patcher used for Unix-like devices (and has been renamed *Unix RiiConnect24 Patcher*). Please check out the [RiiConnect24 Patcher repository](https://github.com/RiiConnect24/RiiConnect24-Patcher) for updates.**
 
 rc24.sh is a patcher for RiiConnect24 services, written in Bash.
 
